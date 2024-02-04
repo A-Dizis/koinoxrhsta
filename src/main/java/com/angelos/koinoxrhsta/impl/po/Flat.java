@@ -16,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -40,6 +39,12 @@ public class Flat {
 	@Id
     @Column(name = "BUILDING_ID", nullable = false)
 	public Long buildingId;
+	
+	/**
+	 * ownerId
+	 */
+    @Column(name = "OWNER_ID")
+	public Long ownerId;
 
 	/**
 	 * ownershipMillis
@@ -80,7 +85,7 @@ public class Flat {
     /**
 	 * owner
 	 */
-    @Transient
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "OWNER_ID", referencedColumnName = "OWNER_ID", nullable = false, insertable = false, updatable = false)
     private Owner owner;
 }
