@@ -1,32 +1,24 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.util.List;
+import java.io.Serializable;
 
 import com.angelos.koinoxrhsta.impl.po.keys.IssuerKey;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Data
 @IdClass(IssuerKey.class)
 @Table(name = "TBISSUER")
-public class Issuer {
+public class Issuer implements Serializable {
 	
 	/**
 	 * issuerId
@@ -49,11 +41,4 @@ public class Issuer {
     @Column(name = "SERVICE_DESC", length = 150)
     private String serviceDescription;
     
-    /**
-     * 
-     */
-    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @Transient
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Bill> bill;
 }

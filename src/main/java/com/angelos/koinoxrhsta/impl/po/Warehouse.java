@@ -1,5 +1,7 @@
 package com.angelos.koinoxrhsta.impl.po;
 
+import java.io.Serializable;
+
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
 import jakarta.persistence.Column;
@@ -13,19 +15,32 @@ import lombok.Data;
 @Data
 @IdClass(WarehouseKey.class)
 @Table(name = "TBWAREHOUSE")
-public class Warehouse {
+public class Warehouse implements Serializable {
 
+	/**
+	 * buildingId
+	 */
 	@Id
 	@Column(name = "BUILDING_ID", nullable = false)
 	private Long buildingId;
 
+	/**
+	 * flatId
+	 */
 	@Id
 	@Column(name = "FLAT_ID", nullable = false)
 	private Long flatId;
 
-    @Column(name = "AREA", nullable = false)
+	/**
+	 * area
+	 */
+    @Column(name = "AREA")
     private Integer area;
 
-    @Column(name = "NAME", nullable = false, length = 2)
+    /**
+     * name
+     */
+    @Column(name = "NAME", length = 2)
     private String name;
+    
 }

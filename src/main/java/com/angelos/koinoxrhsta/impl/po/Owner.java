@@ -1,12 +1,16 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
+import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +31,7 @@ import lombok.ToString;
 @Data
 @IdClass(OwnerKey.class)
 @Table(name = "TBOWNER")
-public class Owner {
+public class Owner implements Serializable {
 
 	/**
 	 * 
@@ -54,13 +58,14 @@ public class Owner {
 	 * birthDate
 	 */
     @Column(name = "BIRTH_DT")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     /**
 	 * sex
 	 */
     @Column(name = "SEX")
-    private Short sex;
+    @Enumerated(EnumType.ORDINAL)
+    private Sex sex;
     
     /**
 	 *

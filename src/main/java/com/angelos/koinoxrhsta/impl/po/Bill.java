@@ -1,7 +1,8 @@
 package com.angelos.koinoxrhsta.impl.po;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 
@@ -14,19 +15,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Data
 @IdClass(BillKey.class)
 @Table(name = "TBBILL")
-public class Bill {
+public class Bill implements Serializable {
 
 	/**
 	 * 
@@ -52,8 +52,6 @@ public class Bill {
 	/**
 	 * 
 	 */
-    @Setter(value = AccessLevel.NONE)
-    @Getter(value = AccessLevel.NONE)
     @Column(name = "ISSUER_ID")
     private Long issuerId;
 
@@ -61,19 +59,19 @@ public class Bill {
 	 * 
 	 */
     @Column(name = "START_DT")
-    private Date startDate;
+    private LocalDate startDate;
 
 	/**
 	 * 
 	 */
     @Column(name = "END_DT")
-    private Date endDate;
+    private LocalDate endDate;
 
 	/**
 	 * 
 	 */
     @Column(name = "DUE_DT")
-    private Date dueDate;
+    private LocalDate dueDate;
 
 	/**
 	 * 
@@ -103,12 +101,30 @@ public class Bill {
 	 * 
 	 */
     @Column(name = "BUILT_DT")
-    private Date builtDate;
+    private LocalDate builtDate;
     
     /**
 	 * issuer
 	 */
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   	@JoinColumn(name = "ISSUER_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "ISSUER_ID", referencedColumnName = "ISSUER_ID", nullable = false, insertable = false, updatable = false)
     private Issuer issuer;
+    
+    /**
+     * 
+     */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
+    private Building building;
+    
+    /**
+     * 
+     */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumns({
+    	@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),
+    	@JoinColumn(name = "FLAT_ID", referencedColumnName = "FLAT_ID", nullable = false, insertable = false, updatable = false)
+    })
+    private Flat flat;
+
 }

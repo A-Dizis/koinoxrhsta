@@ -1,6 +1,7 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
@@ -13,8 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +29,7 @@ import lombok.ToString;
 @Data
 @IdClass(BuildingKey.class)
 @Table(name = "TBBUILDING")
-public class Building {
+public class Building implements Serializable {
 	
 	/**
      * buildingId
@@ -77,7 +80,7 @@ public class Building {
      * builtDate
      */
     @Column(name = "BUILT_DT")
-    private Date builtDate;
+    private LocalDate builtDate;
     
     /**
      * 
@@ -85,5 +88,13 @@ public class Building {
     @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY)
     private List<Flat> flat;
+    
+    /**
+     * 
+     */
+    @Transient
+    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "building")
+    private Bill bill;
     
 }
