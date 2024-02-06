@@ -50,13 +50,13 @@ public class Building implements Serializable {
      * flats
      */
     @Column(name = "FLATS")
-    private Integer flats;
+    private Integer flatsTotal;
 
     /**
      * floors
      */
     @Column(name = "FLOORS")
-    private Integer floors;
+    private Integer floorsTotal;
     
     /**
      * postalCode
@@ -81,20 +81,5 @@ public class Building implements Serializable {
      */
     @Column(name = "BUILT_DT")
     private LocalDate builtDate;
-    
-    /**
-     * 
-     */
-    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Flat> flat;
-    
-    /**
-     * 
-     */
-    @Transient
-    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "building")
-    private Bill bill;
-    
+        
 }

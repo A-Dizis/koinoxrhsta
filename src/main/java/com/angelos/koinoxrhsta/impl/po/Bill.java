@@ -40,20 +40,22 @@ public class Bill implements Serializable {
 	/**
 	 * 
 	 */
-	@Column(name = "BUILDING_ID")
-    private Long buildingId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
+    private Building building;
 
+    /**
+	 * issuer
+	 */
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ISSUER_ID", referencedColumnName = "ISSUER_ID", insertable = false, updatable = false)
+    private Issuer issuer;
+	
 	/**
 	 * 
 	 */
     @Column(name = "FLAT_ID")
     private Long flatId;
-
-	/**
-	 * 
-	 */
-    @Column(name = "ISSUER_ID")
-    private Long issuerId;
 
 	/**
 	 * 
@@ -102,20 +104,6 @@ public class Bill implements Serializable {
 	 */
     @Column(name = "BUILT_DT")
     private LocalDate builtDate;
-    
-    /**
-	 * issuer
-	 */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ISSUER_ID", referencedColumnName = "ISSUER_ID", nullable = false, insertable = false, updatable = false)
-    private Issuer issuer;
-    
-    /**
-     * 
-     */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
-    private Building building;
     
     /**
      * 

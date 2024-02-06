@@ -41,18 +41,20 @@ public class Flat implements Serializable{
     @Column(name = "FLAT_ID", nullable = false)
 	private Long flatId;
 	
-	/**
-	 * buildingId - ID
+    /**
+	 * building
 	 */
 	@Id
-    @Column(name = "BUILDING_ID", nullable = false)
-	private Long buildingId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false)
+    private Building building;
 	
-	/**
-	 * ownerId
+    /**
+	 * owner
 	 */
-    @Column(name = "OWNER_ID")
-    private Long ownerId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "OWNER_ID", referencedColumnName = "OWNER_ID")
+    private Owner owner;
 
 	/**
 	 * ownershipMillis
@@ -73,13 +75,6 @@ public class Flat implements Serializable{
     private String flatName;
     
     /**
-	 * building
-	 */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
-    private Building building;
-    
-    /**
 	 * flatSpec
 	 */
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -89,13 +84,6 @@ public class Flat implements Serializable{
     	    	@JoinColumn(name = "FLAT_ID", referencedColumnName = "FLAT_ID", nullable = false, insertable = false, updatable = false)
     	    })
     private FlatSpec flatSpec;
-    
-    /**
-	 * owner
-	 */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "OWNER_ID", referencedColumnName = "OWNER_ID", nullable = false, insertable = false, updatable = false)
-    private Owner owner;
     
     /**
      * 

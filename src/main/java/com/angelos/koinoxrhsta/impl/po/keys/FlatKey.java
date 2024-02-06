@@ -1,5 +1,7 @@
 package com.angelos.koinoxrhsta.impl.po.keys;
 
+import com.angelos.koinoxrhsta.impl.po.Building;
+
 import lombok.Data;
 
 @Data
@@ -7,6 +9,6 @@ public class FlatKey {
 
 	private Long flatId;
 	
-	private Long buildingId;
+	private Building building;
 	
 }
