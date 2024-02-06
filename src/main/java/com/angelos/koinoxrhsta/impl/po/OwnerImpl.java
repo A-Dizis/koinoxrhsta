@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.angelos.koinoxrhsta.def.po.Flat;
 import com.angelos.koinoxrhsta.def.po.Owner;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
@@ -29,6 +31,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+@Component
 @Entity
 @Data
 @IdClass(OwnerKey.class)

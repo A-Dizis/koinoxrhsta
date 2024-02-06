@@ -2,6 +2,8 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 import com.angelos.koinoxrhsta.def.po.Building;
 import com.angelos.koinoxrhsta.def.po.FlatSpec;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
@@ -16,6 +18,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+@Component
 @Entity
 @Data
 @Table(name = "TBFLATSPEC")
@@ -29,12 +32,12 @@ public class FlatSpecImpl implements FlatSpec, Serializable {
     @Column(name = "FLAT_ID", nullable = false)
 	private Long flatId;
 	
-    /**
+	/**
 	 * building
 	 */
 	@Id
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false)
+    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
     private Building building;
 
 	/**

@@ -29,27 +29,36 @@ public class Executable {
 	ParkingPw parkingPw;
 	BillPw billPw;
 	IssuerPw issuerPw;
+	Building building;
+	Owner owner;
+	Flat flat;
+	Parking parking;
 	
-	public Executable(BuildingPw buildingPw, FlatPw flatPw, OwnerPw ownerPw, ParkingPw parkingPw, BillPw billPw, IssuerPw issuerPw) {
+	public Executable(BuildingPw buildingPw, FlatPw flatPw, OwnerPw ownerPw, ParkingPw parkingPw, BillPw billPw, IssuerPw issuerPw,
+			Building building, Owner owner,	Flat flat, Parking parking) {
 		this.buildingPw = buildingPw;
 		this.flatPw = flatPw;
 		this.ownerPw = ownerPw;
 		this.parkingPw = parkingPw;
 		this.billPw = billPw;
 		this.issuerPw = issuerPw;
+		this.building = building;
+		this.owner = owner;
+		this.flat = flat;
+		this.parking = parking;
 	}
 
 
 
 	public void execute() {
 
-		Building building = new Building();
+		
 		building.setOwnershipMillis(1000);
-		building.setAddressName("kalisthenous");
-		building.setAddressNo(55);
-		building.setBuiltDate(LocalDate.of(1999, 11, 5));
-		building.setFlatsTotal(16);
-		building.setPostalCode(16933);
+		building.setAddressName("Timotheou");
+		building.setAddressNo(33);
+		building.setBuiltDate(LocalDate.of(1967, 10, 5));
+		building.setFlatsTotal(10);
+		building.setPostalCode(17800);
 		building.setFloorsTotal(5);
 		
 		building = buildingPw.save(building);
@@ -62,29 +71,29 @@ public class Executable {
 		
 
 
-		Owner owner = new Owner();
-		owner.setName("Kokis");
-		owner.setSurname("Cole");
-		owner.setBirthDate(LocalDate.of(1980, 5, 17));
-		owner.setSex(Sex.MALE);
+		
+		owner.setName("loulou");
+		owner.setSurname("kakia");
+		owner.setBirthDate(LocalDate.of(1950, 5, 15));
+		owner.setSex(Sex.FEMALE);
 
 //		owner = ownerPw.save(owner);
 //		System.out.println(owner);
 		
 		
-		Flat flat = new Flat();
+
 		flat.setBuilding(building);
 		flat.setOwner(owner);
-		flat.setFlatName("B2");
-		flat.setFloor(2);
-		flat.setOwnershipMillis(105);
+		flat.setFlatName("D2");
+		flat.setFloor(4);
+		flat.setOwnershipMillis(75);
 		flat = flatPw.save(flat);
 		
 		System.out.println(flat);
 		
-		Parking parking = new Parking();
+		
 		parking.setArea(9);
-		parking.setEntrance(Side.BACK);
+		parking.setEntrance(Side.LEFT);
 		parking.setBuilding(building);
 		parking.setFlatId(flat.getFlatId());
 

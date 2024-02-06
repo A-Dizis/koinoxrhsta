@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.angelos.koinoxrhsta.def.po.Bill;
 import com.angelos.koinoxrhsta.def.po.Building;
 import com.angelos.koinoxrhsta.def.po.Flat;
@@ -26,6 +28,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+@Component
 @Entity
 @Data
 @IdClass(BillKey.class)

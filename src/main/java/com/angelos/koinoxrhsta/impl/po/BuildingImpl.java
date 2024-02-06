@@ -3,6 +3,8 @@ package com.angelos.koinoxrhsta.impl.po;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.angelos.koinoxrhsta.def.po.Building;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
@@ -16,6 +18,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+@Component
 @Entity
 @Data
 @IdClass(BuildingKey.class)

@@ -2,6 +2,8 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 import com.angelos.koinoxrhsta.def.po.Building;
 import com.angelos.koinoxrhsta.def.po.Parking;
 import com.angelos.koinoxrhsta.impl.enums.Side;
@@ -19,6 +21,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+@Component
 @Entity
 @Data
 @IdClass(ParkingKey.class)
