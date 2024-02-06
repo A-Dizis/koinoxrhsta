@@ -2,6 +2,7 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.io.Serializable;
 
+import com.angelos.koinoxrhsta.def.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.keys.IssuerKey;
 
 import jakarta.persistence.Column;
@@ -18,7 +19,7 @@ import lombok.Data;
 @Data
 @IdClass(IssuerKey.class)
 @Table(name = "TBISSUER")
-public class Issuer implements Serializable {
+public class IssuerImpl implements Issuer, Serializable {
 	
 	/**
 	 * issuerId

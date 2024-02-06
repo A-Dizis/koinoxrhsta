@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.angelos.koinoxrhsta.def.po.Bill;
+import com.angelos.koinoxrhsta.def.po.Building;
+import com.angelos.koinoxrhsta.def.po.Flat;
+import com.angelos.koinoxrhsta.def.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 
 import jakarta.persistence.CascadeType;
@@ -26,7 +30,7 @@ import lombok.Data;
 @Data
 @IdClass(BillKey.class)
 @Table(name = "TBBILL")
-public class Bill implements Serializable {
+public class BillImpl implements Bill, Serializable {
 
 	/**
 	 * 
@@ -114,5 +118,5 @@ public class Bill implements Serializable {
     	@JoinColumn(name = "FLAT_ID", referencedColumnName = "FLAT_ID", nullable = false, insertable = false, updatable = false)
     })
     private Flat flat;
-
+    
 }

@@ -2,6 +2,8 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.io.Serializable;
 
+import com.angelos.koinoxrhsta.def.po.Building;
+import com.angelos.koinoxrhsta.def.po.Warehouse;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
 import jakarta.persistence.Column;
@@ -18,7 +20,7 @@ import lombok.Data;
 @Data
 @IdClass(WarehouseKey.class)
 @Table(name = "TBWAREHOUSE")
-public class Warehouse implements Serializable {
+public class WarehouseImpl implements Warehouse, Serializable {
 
 	/**
 	 * building

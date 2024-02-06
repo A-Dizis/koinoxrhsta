@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.angelos.koinoxrhsta.def.po.Building;
+import com.angelos.koinoxrhsta.def.po.Flat;
+import com.angelos.koinoxrhsta.def.po.Owner;
+import com.angelos.koinoxrhsta.def.po.Parking;
 import com.angelos.koinoxrhsta.def.pw.BillPw;
 import com.angelos.koinoxrhsta.def.pw.BuildingPw;
 import com.angelos.koinoxrhsta.def.pw.FlatPw;
@@ -13,10 +17,6 @@ import com.angelos.koinoxrhsta.def.pw.OwnerPw;
 import com.angelos.koinoxrhsta.def.pw.ParkingPw;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.enums.Side;
-import com.angelos.koinoxrhsta.impl.po.Building;
-import com.angelos.koinoxrhsta.impl.po.Flat;
-import com.angelos.koinoxrhsta.impl.po.Owner;
-import com.angelos.koinoxrhsta.impl.po.Parking;
 
 @Transactional(rollbackFor = Exception.class)
 @Service

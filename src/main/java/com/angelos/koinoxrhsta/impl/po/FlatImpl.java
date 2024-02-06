@@ -2,6 +2,12 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.io.Serializable;
 
+import com.angelos.koinoxrhsta.def.po.Building;
+import com.angelos.koinoxrhsta.def.po.Flat;
+import com.angelos.koinoxrhsta.def.po.FlatSpec;
+import com.angelos.koinoxrhsta.def.po.Owner;
+import com.angelos.koinoxrhsta.def.po.Parking;
+import com.angelos.koinoxrhsta.def.po.Warehouse;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
 import jakarta.persistence.CascadeType;
@@ -18,19 +24,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Data
 @IdClass(FlatKey.class)
 @Table(name = "TBFLAT")
-public class Flat implements Serializable{
+public class FlatImpl implements Flat, Serializable {
 
 	/**
 	 * flatId - ID
@@ -107,11 +107,4 @@ public class Flat implements Serializable{
     	    })
     private Warehouse warehouse;
     
-    /**
-     * 
-     */
-    @Transient
-    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "flat")
-    private Bill bill;
 }

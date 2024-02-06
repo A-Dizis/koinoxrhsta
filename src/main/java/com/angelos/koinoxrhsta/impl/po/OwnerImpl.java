@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.angelos.koinoxrhsta.def.po.Flat;
+import com.angelos.koinoxrhsta.def.po.Owner;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
@@ -31,7 +33,7 @@ import lombok.ToString;
 @Data
 @IdClass(OwnerKey.class)
 @Table(name = "TBOWNER")
-public class Owner implements Serializable {
+public class OwnerImpl implements Owner, Serializable {
 
 	/**
 	 * 

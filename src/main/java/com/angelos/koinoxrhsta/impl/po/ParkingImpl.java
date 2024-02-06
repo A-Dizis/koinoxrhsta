@@ -2,6 +2,8 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.io.Serializable;
 
+import com.angelos.koinoxrhsta.def.po.Building;
+import com.angelos.koinoxrhsta.def.po.Parking;
 import com.angelos.koinoxrhsta.impl.enums.Side;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 
@@ -21,7 +23,7 @@ import lombok.Data;
 @Data
 @IdClass(ParkingKey.class)
 @Table(name = "TBPARKING")
-public class Parking implements Serializable {
+public class ParkingImpl implements Parking, Serializable {
 
 	/**
 	 * building
