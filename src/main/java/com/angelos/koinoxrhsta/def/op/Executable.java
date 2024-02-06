@@ -45,11 +45,11 @@ public class Executable {
 
 		Building building = new Building();
 		building.setOwnershipMillis(1000);
-		building.setAddressName("kalisthenous");
-		building.setAddressNo(55);
-		building.setBuiltDate(LocalDate.of(1999, 11, 5));
-		building.setFlatsTotal(16);
-		building.setPostalCode(16933);
+		building.setAddressName("kalidromiou");
+		building.setAddressNo(102);
+		building.setBuiltDate(LocalDate.of(1989, 11, 5));
+		building.setFlatsTotal(10);
+		building.setPostalCode(16899);
 		building.setFloorsTotal(5);
 		
 		building = buildingPw.save(building);
@@ -63,8 +63,8 @@ public class Executable {
 
 
 		Owner owner = new Owner();
-		owner.setName("Kokis");
-		owner.setSurname("Cole");
+		owner.setName("Koula");
+		owner.setSurname("Lona");
 		owner.setBirthDate(LocalDate.of(1980, 5, 17));
 		owner.setSex(Sex.MALE);
 
@@ -75,9 +75,9 @@ public class Executable {
 		Flat flat = new Flat();
 		flat.setBuilding(building);
 		flat.setOwner(owner);
-		flat.setFlatName("B2");
-		flat.setFloor(2);
-		flat.setOwnershipMillis(105);
+		flat.setFlatName("D2");
+		flat.setFloor(4);
+		flat.setOwnershipMillis(75);
 		flat = flatPw.save(flat);
 		
 		System.out.println(flat);
