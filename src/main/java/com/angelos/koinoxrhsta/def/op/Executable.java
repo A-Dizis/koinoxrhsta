@@ -22,7 +22,6 @@ import com.angelos.koinoxrhsta.impl.po.Parking;
 @Service
 public class Executable {
 
-	
 	BuildingPw buildingPw;
 	FlatPw flatPw;
 	OwnerPw ownerPw;
@@ -45,12 +44,12 @@ public class Executable {
 
 		Building building = new Building();
 		building.setOwnershipMillis(1000);
-		building.setAddressName("kalidromiou");
-		building.setAddressNo(102);
-		building.setBuiltDate(LocalDate.of(1989, 11, 5));
-		building.setFlatsTotal(10);
-		building.setPostalCode(16899);
-		building.setFloorsTotal(5);
+		building.setAddressName("Pesilopis");
+		building.setAddressNo(161);
+		building.setBuiltDate(LocalDate.of(1966, 12, 6));
+		building.setFlatsTotal(12);
+		building.setPostalCode(16233);
+		building.setFloorsTotal(6);
 		
 		building = buildingPw.save(building);
 		
@@ -63,21 +62,21 @@ public class Executable {
 
 
 		Owner owner = new Owner();
-		owner.setName("Koula");
-		owner.setSurname("Lona");
-		owner.setBirthDate(LocalDate.of(1980, 5, 17));
-		owner.setSex(Sex.MALE);
+		owner.setName("Tourlen");
+		owner.setSurname("Sousi");
+		owner.setBirthDate(LocalDate.of(1967, 3, 22));
+		owner.setSex(Sex.FEMALE);
 
 //		owner = ownerPw.save(owner);
-//		System.out.println(owner);
+		System.out.println(owner);
 		
 		
 		Flat flat = new Flat();
 		flat.setBuilding(building);
 		flat.setOwner(owner);
-		flat.setFlatName("D2");
-		flat.setFloor(4);
-		flat.setOwnershipMillis(75);
+		flat.setFlatName("A1");
+		flat.setFloor(1);
+		flat.setOwnershipMillis(180);
 		flat = flatPw.save(flat);
 		
 		System.out.println(flat);
@@ -88,6 +87,9 @@ public class Executable {
 		parking.setBuilding(building);
 		parking.setFlatId(flat.getFlatId());
 
+//		parking = parkingPw.save(parking);
+//		System.out.println(parking);
+				
 		flat.setParking(parking);
 		flat = flatPw.save(flat);
 		System.out.println(flat);

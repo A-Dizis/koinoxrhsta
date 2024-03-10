@@ -32,7 +32,7 @@ public class FlatSpec implements Serializable {
 	 */
 	@Id
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false)
     private Building building;
 
 	/**
