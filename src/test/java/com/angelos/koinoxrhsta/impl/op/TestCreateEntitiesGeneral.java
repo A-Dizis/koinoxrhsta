@@ -1,8 +1,6 @@
 package com.angelos.koinoxrhsta.impl.op;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import java.time.LocalDate;
 
 import org.junit.Test;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.angelos.koinoxrhsta.KoinoxrhstaApplication;
 import com.angelos.koinoxrhsta.def.pw.BillPw;
 import com.angelos.koinoxrhsta.def.pw.BuildingPw;
 import com.angelos.koinoxrhsta.def.pw.FlatPw;
@@ -73,7 +70,7 @@ public class TestCreateEntitiesGeneral {
 		owner = ownerPw.save(owner);
 
 		Flat flat = new Flat();
-		flat.setBuilding(building);
+		flat.setBuildingId(building.getBuildingId());
 		flat.setOwner(owner);
 		flat.setFlatName("D2");
 		flat.setFloor(4);
@@ -81,7 +78,7 @@ public class TestCreateEntitiesGeneral {
 		flat = flatPw.save(flat);
 		
 		FlatSpec flatSpec = new FlatSpec();
-		flatSpec.setBuilding(building);
+		flatSpec.setBuildingId(building.getBuildingId());
 		flatSpec.setFlatId(flat.getFlatId());
 		flatSpec.setTotalArea(100);
 		flatSpec.setBedroomsNo(2);
@@ -95,7 +92,7 @@ public class TestCreateEntitiesGeneral {
 		Parking parking = new Parking();
 		parking.setArea(9);
 		parking.setEntrance(Side.BACK);
-		parking.setBuilding(building);
+		parking.setBuildingId(building.getBuildingId());
 		parking.setFlatId(flat.getFlatId());
 		parking = parkingPw.save(parking);
 
@@ -112,7 +109,7 @@ public class TestCreateEntitiesGeneral {
 		Building expectedBuilding = buildingPw.getReferenceById(buildingKey);
 		
 		FlatKey flatKey = new FlatKey();
-		flatKey.setBuilding(expectedBuilding);
+		flatKey.setBuildingId(building.getBuildingId());
 		flatKey.setFlatId(flat.getFlatId());
 		Flat expectedFlat = flatPw.getReferenceById(flatKey);
 		
@@ -120,6 +117,6 @@ public class TestCreateEntitiesGeneral {
 		/**
 		 * Assert equility
 		 */
-		assertThat(flat).usingRecursiveComparison().isEqualTo(expectedFlat);
+		System.out.println("----------------" + assertThat(flat).usingRecursiveComparison().isEqualTo(expectedFlat));
 	}
 }

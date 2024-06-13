@@ -6,11 +6,8 @@ import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -20,13 +17,12 @@ import lombok.Data;
 @Table(name = "TBWAREHOUSE")
 public class Warehouse implements Serializable {
 
-	/**
-	 * building
+    /**
+	 * building - ID
 	 */
 	@Id
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
-    private Building building;
+    @Column(name = "BUILDING_ID", nullable = false)
+    private Long buildingId;
 
 	/**
 	 * flatId

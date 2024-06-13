@@ -72,19 +72,20 @@ public class Executable {
 		
 		
 		Flat flat = new Flat();
-		flat.setBuilding(building);
+		flat.setBuildingId(building.getBuildingId());
 		flat.setOwner(owner);
 		flat.setFlatName("A1");
 		flat.setFloor(1);
 		flat.setOwnershipMillis(180);
 		flat = flatPw.save(flat);
 		
-		System.out.println(flat);
+		System.out.println(flat);
+
 		
 		Parking parking = new Parking();
 		parking.setArea(9);
 		parking.setEntrance(Side.BACK);
-		parking.setBuilding(building);
+		parking.setBuildingId(building.getBuildingId());
 		parking.setFlatId(flat.getFlatId());
 
 //		parking = parkingPw.save(parking);

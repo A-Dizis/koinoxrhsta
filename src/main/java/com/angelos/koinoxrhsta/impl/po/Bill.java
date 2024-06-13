@@ -37,12 +37,11 @@ public class Bill implements Serializable {
     @Column(name = "RECEIPT_ID", nullable = false)
 	private Long receiptNo;
 
-	/**
-	 * 
+    /**
+	 * building
 	 */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false)
-    private Building building;
+    @Column(name = "BUILDING_ID", nullable = false)
+    private Long buildingId;
 
     /**
 	 * issuer

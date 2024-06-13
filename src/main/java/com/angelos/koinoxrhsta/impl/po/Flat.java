@@ -42,12 +42,11 @@ public class Flat implements Serializable{
 	private Long flatId;
 	
     /**
-	 * building
+	 * building - ID
 	 */
 	@Id
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false)
-    private Building building;
+    @Column(name = "BUILDING_ID", nullable = false)
+    private Long buildingId;
 	
     /**
 	 * owner
