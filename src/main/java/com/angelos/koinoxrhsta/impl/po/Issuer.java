@@ -2,7 +2,8 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.util.List;
 
-import com.angelos.koinoxrhsta.impl.infrastructure.Key;
+import com.angelos.koinoxrhsta.def.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.IssuerKey;
 
 import jakarta.persistence.Column;
@@ -28,20 +29,20 @@ import lombok.ToString;
 @Data
 @IdClass(IssuerKey.class)
 @Table(name = "TBISSUER")
-public class Issuer extends Key<IssuerKey> {
-	
-	/**
-	 * issuerId
-	 */
-	@Id
+public class Issuer extends KeyImpl<IssuerKey> implements Key<IssuerKey> {
+
+    /**
+     * issuerId
+     */
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "issuer_generator")
-    @SequenceGenerator(name="issuer_generator", sequenceName = "SEQ_ISSUER_ID", allocationSize = 1)
+    @SequenceGenerator(name = "issuer_generator", sequenceName = "SEQ_ISSUER_ID", allocationSize = 1)
     @Column(name = "ISSUER_ID", nullable = false)
-	private Long issuerId;
-    
-	/**
-	 * name
-	 */
+    private Long issuerId;
+
+    /**
+     * name
+     */
     @Column(name = "NAME", length = 36)
     private String name;
 
@@ -52,18 +53,36 @@ public class Issuer extends Key<IssuerKey> {
     private String serviceDescription;
 
     /**
-	 * 
-	 */
-	@Version
-	@Column(name = "LAST_VERSION")
-	private Long lastVersion;
+     * 
+     */
+    @Version
+    @Column(name = "LAST_VERSION")
+    private Long lastVersion;
 
     /**
-	 *
-	 */
+     *
+     */
     @Transient
-    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
+    @Setter(value = AccessLevel.NONE)
+    @Getter(value = AccessLevel.NONE)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY)
     private List<Bill> bills;
-    
+
+    /**
+     * @return
+     */
+    public IssuerKey getKey() {
+        return super.getKey(IssuerKey.class);
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setKey(IssuerKey key) {
+        super.setKey(key);
+    }
+
 }

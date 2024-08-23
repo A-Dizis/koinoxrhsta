@@ -2,7 +2,6 @@ package com.angelos.koinoxrhsta.impl.op;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -31,7 +30,6 @@ import com.angelos.koinoxrhsta.impl.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.Parking;
 import com.angelos.koinoxrhsta.impl.po.Warehouse;
-import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
 
@@ -147,12 +145,11 @@ public class TestCreateEntitiesGeneral  extends Operation{
 		 */
 		Building expectedBuilding;
 		try {
-			expectedBuilding = buildingPw.findById(building.getKey(BuildingKey.class)).get();
+			expectedBuilding = buildingPw.findById(building.getKey()).get();
 			System.out.println("Comparing keys...");
-			System.out.println(expectedBuilding.getKey(BuildingKey.class));
-			System.out.println(building.getKey(BuildingKey.class));
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
+			System.out.println(expectedBuilding.getKey());
+			System.out.println(building.getKey());
+		} catch (IllegalArgumentException | SecurityException e) {
 			throw new RuntimeException(e);
 		}
 		

@@ -3,7 +3,8 @@ package com.angelos.koinoxrhsta.impl.po;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.angelos.koinoxrhsta.impl.infrastructure.Key;
+import com.angelos.koinoxrhsta.def.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 
 import jakarta.persistence.Column;
@@ -26,7 +27,7 @@ import lombok.Data;
 @Data
 @IdClass(BillKey.class)
 @Table(name = "TBBILL")
-public class Bill extends Key<BillKey> {
+public class Bill extends KeyImpl<BillKey> implements Key<BillKey>{
 
 	/**
 	 * 
@@ -121,4 +122,19 @@ public class Bill extends Key<BillKey> {
     })
     private Flat flat;
 
+	/**
+	 * @return
+	 */
+	public BillKey getKey() {
+		return super.getKey(BillKey.class);
+	}
+
+	/**
+	 * 
+	 */
+	public void setKey(BillKey key) {
+		super.setKey(key);
+	}
+
+	
 }

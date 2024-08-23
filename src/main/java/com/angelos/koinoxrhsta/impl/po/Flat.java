@@ -1,6 +1,7 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import com.angelos.koinoxrhsta.impl.infrastructure.Key;
+import com.angelos.koinoxrhsta.def.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
 import jakarta.persistence.CascadeType;
@@ -30,7 +31,7 @@ import lombok.ToString;
 @Data
 @IdClass(FlatKey.class)
 @Table(name = "TBFLAT")
-public class Flat extends Key<FlatKey> {
+public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
 
 	/**
 	 * flatId - ID
@@ -120,4 +121,20 @@ public class Flat extends Key<FlatKey> {
     @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     private Bill bill;
+
+    /**
+     * @return
+     */
+    public FlatKey getKey() {
+        return super.getKey(FlatKey.class);
+    }
+
+    /**
+     * 
+     */
+    public void setKey(FlatKey key) {
+        super.setKey(key);
+    }
+
+    
 }

@@ -3,8 +3,9 @@ package com.angelos.koinoxrhsta.impl.po;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.angelos.koinoxrhsta.def.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
-import com.angelos.koinoxrhsta.impl.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
 import jakarta.persistence.Column;
@@ -32,7 +33,7 @@ import lombok.ToString;
 @Data
 @IdClass(OwnerKey.class)
 @Table(name = "TBOWNER")
-public class Owner extends Key<OwnerKey> {
+public class Owner extends KeyImpl<OwnerKey> implements Key<OwnerKey> {
 
 	/**
 	 * 
@@ -42,31 +43,31 @@ public class Owner extends Key<OwnerKey> {
 	@SequenceGenerator(name = "owner_generator", sequenceName = "SEQ_OWNER_ID", allocationSize = 1)
 	@Column(name = "OWNER_ID", nullable = false)
 	private Long ownerId;
-	
+
 	/**
 	 * name
 	 */
-    @Column(name = "NAME", length = 25)
-    private String name;
+	@Column(name = "NAME", length = 25)
+	private String name;
 
-    /**
+	/**
 	 * surname
 	 */
-    @Column(name = "SURNAME", length = 25)
-    private String surname;
+	@Column(name = "SURNAME", length = 25)
+	private String surname;
 
-    /**
+	/**
 	 * birthDate
 	 */
-    @Column(name = "BIRTH_DT")
-    private LocalDate birthDate;
+	@Column(name = "BIRTH_DT")
+	private LocalDate birthDate;
 
-    /**
+	/**
 	 * sex
 	 */
-    @Column(name = "SEX")
-    @Enumerated(EnumType.ORDINAL)
-    private Sex sex;
+	@Column(name = "SEX")
+	@Enumerated(EnumType.ORDINAL)
+	private Sex sex;
 
 	/**
 	 * 
@@ -74,12 +75,30 @@ public class Owner extends Key<OwnerKey> {
 	@Version
 	@Column(name = "LAST_VERSION")
 	private Long lastVersion;
-    
-    /**
+
+	/**
 	 *
 	 */
-    @Transient
-    @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Flat> flats;
+	@Transient
+	@Setter(value = AccessLevel.NONE)
+	@Getter(value = AccessLevel.NONE)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Flat> flats;
+
+	/**
+	 * @return
+	 */
+	public OwnerKey getKey() {
+		return super.getKey(OwnerKey.class);
+	}
+
+	/**
+	 * 
+	 */
+	public void setKey(OwnerKey key) {
+		super.setKey(key);
+	}
+
 }

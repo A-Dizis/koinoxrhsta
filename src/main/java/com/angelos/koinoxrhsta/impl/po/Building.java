@@ -2,7 +2,8 @@ package com.angelos.koinoxrhsta.impl.po;
 
 import java.time.LocalDate;
 
-import com.angelos.koinoxrhsta.impl.infrastructure.Key;
+import com.angelos.koinoxrhsta.def.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
 import jakarta.persistence.Column;
@@ -16,28 +17,27 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
 
-
 @Entity
 @Data
 @IdClass(BuildingKey.class)
 @Table(name = "TBBUILDING")
-public class Building extends Key<BuildingKey> {
+public class Building extends KeyImpl<BuildingKey> implements Key<BuildingKey> {
 
-	/**
+    /**
      * buildingId
      */
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "building_generator")
-    @SequenceGenerator(name="building_generator", sequenceName = "SEQ_BUILDING_ID", allocationSize = 1)
+    @SequenceGenerator(name = "building_generator", sequenceName = "SEQ_BUILDING_ID", allocationSize = 1)
     @Column(name = "BUILDING_ID", nullable = false)
-	private Long buildingId;
+    private Long buildingId;
 
-	/**
+    /**
      * ownershipMillis
      */
     @Column(name = "OWNERSHIP_MILLIS")
     private Integer ownershipMillis;
- 
+
     /**
      * flats
      */
@@ -49,7 +49,7 @@ public class Building extends Key<BuildingKey> {
      */
     @Column(name = "FLOORS")
     private Integer floorsTotal;
-    
+
     /**
      * postalCode
      */
@@ -75,9 +75,23 @@ public class Building extends Key<BuildingKey> {
     private LocalDate builtDate;
 
     /**
-	 * 
-	 */
-	@Version
-	@Column(name = "LAST_VERSION")
-	private Long lastVersion;
+    * 
+    */
+    @Version
+    @Column(name = "LAST_VERSION")
+    private Long lastVersion;
+
+    /**
+     * @return key.
+     */
+    public BuildingKey getKey() {
+        return super.getKey(BuildingKey.class);
+    }
+
+    /**
+     * Set key.
+     */
+    public void setKey(BuildingKey key) {
+        super.setKey(key);
+    }
 }

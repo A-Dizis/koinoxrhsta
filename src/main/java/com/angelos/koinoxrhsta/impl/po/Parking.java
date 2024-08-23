@@ -1,7 +1,8 @@
 package com.angelos.koinoxrhsta.impl.po;
 
+import com.angelos.koinoxrhsta.def.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.enums.Side;
-import com.angelos.koinoxrhsta.impl.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 
 import jakarta.persistence.Column;
@@ -18,15 +19,15 @@ import lombok.Data;
 @Data
 @IdClass(ParkingKey.class)
 @Table(name = "TBPARKING")
-public class Parking extends Key<ParkingKey> {
+public class Parking extends KeyImpl<ParkingKey> implements Key<ParkingKey> {
 
-    /**
+	/**
 	 * building - ID
 	 */
 	@Id
-    @Column(name = "BUILDING_ID", nullable = false)
-    private Long buildingId;
-	
+	@Column(name = "BUILDING_ID", nullable = false)
+	private Long buildingId;
+
 	/**
 	 * flatId
 	 */
@@ -37,15 +38,15 @@ public class Parking extends Key<ParkingKey> {
 	/**
 	 * area
 	 */
-    @Column(name = "AREA")
-    private Integer area;
+	@Column(name = "AREA")
+	private Integer area;
 
-    /**
-     * entrance
-     */
-    @Column(name = "ENTRANCE_SIDE")
-    @Enumerated(EnumType.ORDINAL)
-    private Side entrance;
+	/**
+	 * entrance
+	 */
+	@Column(name = "ENTRANCE_SIDE")
+	@Enumerated(EnumType.ORDINAL)
+	private Side entrance;
 
 	/**
 	 * 
@@ -53,5 +54,19 @@ public class Parking extends Key<ParkingKey> {
 	@Version
 	@Column(name = "LAST_VERSION")
 	private Long lastVersion;
-    
+
+	/**
+	 * @return
+	 */
+	public ParkingKey getKey() {
+		return super.getKey(ParkingKey.class);
+	}
+
+	/**
+	 * 
+	 */
+	public void setKey(ParkingKey key) {
+		super.setKey(key);
+	}
+
 }

@@ -1,7 +1,6 @@
 package com.angelos.koinoxrhsta.impl.ws;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.angelos.koinoxrhsta.def.pw.BuildingPw;
 import com.angelos.koinoxrhsta.impl.dto.BuildingDTO;
 import com.angelos.koinoxrhsta.impl.dto.mappers.BuildingMapper;
+import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
@@ -27,10 +27,12 @@ public class BuildingApi {
 
 	BuildingPw buildingPw;
     BuildingMapper mapper;
+    GenericPersister<Building, BuildingKey> pst;
 
-    public BuildingApi(BuildingPw buildingPw, BuildingMapper mapper) {
+    public BuildingApi(BuildingPw buildingPw, BuildingMapper mapper, GenericPersister<Building, BuildingKey> pst) {
         this.buildingPw = buildingPw;
         this.mapper = mapper;
+        this.pst = pst;
     }
 
     @RequestMapping(path = "/findAll", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,14 +64,15 @@ public class BuildingApi {
         BuildingKey key = new BuildingKey();
         key.setBuildingId(buildingDTO.getBuildingId());
         
-        Optional<Building> optionalBuilding = buildingPw.findById(key);
-        if(!optionalBuilding.isPresent()) {
+        Building building = pst.read(key);
+        // Optional<Building> optionalBuilding = buildingPw.findById(key);
+        if(/* !optionalBuilding.isPresent() */building == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).header("errorMessage",  "No entry was found.").build();
         }
         
         Building forUpdating = mapper.mapFromDto(buildingDTO);
         forUpdating.setKey(key);
-        forUpdating.setLastVersion(optionalBuilding.get().getLastVersion());
+        forUpdating.setLastVersion(/*optionalBuilding.get()*/ building.getLastVersion());
         forUpdating = buildingPw.save(forUpdating);
         buildingDTO = mapper.mapToDto(forUpdating); 
 
