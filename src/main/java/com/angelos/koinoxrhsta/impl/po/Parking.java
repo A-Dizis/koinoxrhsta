@@ -1,8 +1,7 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.io.Serializable;
-
 import com.angelos.koinoxrhsta.impl.enums.Side;
+import com.angelos.koinoxrhsta.impl.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 
 import jakarta.persistence.Column;
@@ -12,13 +11,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 
 @Entity
 @Data
 @IdClass(ParkingKey.class)
 @Table(name = "TBPARKING")
-public class Parking implements Serializable {
+public class Parking extends Key<ParkingKey> {
 
     /**
 	 * building - ID
@@ -46,5 +46,12 @@ public class Parking implements Serializable {
     @Column(name = "ENTRANCE_SIDE")
     @Enumerated(EnumType.ORDINAL)
     private Side entrance;
+
+	/**
+	 * 
+	 */
+	@Version
+	@Column(name = "LAST_VERSION")
+	private Long lastVersion;
     
 }

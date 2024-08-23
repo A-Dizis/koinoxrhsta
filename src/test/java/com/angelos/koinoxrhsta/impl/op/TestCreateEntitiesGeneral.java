@@ -1,6 +1,9 @@
 package com.angelos.koinoxrhsta.impl.op;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.junit.Test;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.angelos.koinoxrhsta.def.infrastructure.Operation;
 import com.angelos.koinoxrhsta.def.pw.BillPw;
 import com.angelos.koinoxrhsta.def.pw.BuildingPw;
 import com.angelos.koinoxrhsta.def.pw.FlatPw;
@@ -16,34 +20,45 @@ import com.angelos.koinoxrhsta.def.pw.FlatSpecPw;
 import com.angelos.koinoxrhsta.def.pw.IssuerPw;
 import com.angelos.koinoxrhsta.def.pw.OwnerPw;
 import com.angelos.koinoxrhsta.def.pw.ParkingPw;
+import com.angelos.koinoxrhsta.def.pw.WarehousePw;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.enums.Side;
+import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.FlatSpec;
+import com.angelos.koinoxrhsta.impl.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.Parking;
+import com.angelos.koinoxrhsta.impl.po.Warehouse;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
+import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-public class TestCreateEntitiesGeneral {
+public class TestCreateEntitiesGeneral  extends Operation{
+
+	BuildingPw buildingPw;
+	FlatPw flatPw;
+	OwnerPw ownerPw;
+	ParkingPw parkingPw;
+	BillPw billPw;
+	IssuerPw issuerPw;
+	FlatSpecPw flatSpecPw;
+	WarehousePw warehousePw;
 
 	@Autowired
-	BuildingPw buildingPw;
-	@Autowired
-	FlatPw flatPw;
-	@Autowired
-	OwnerPw ownerPw;
-	@Autowired
-	ParkingPw parkingPw;
-	@Autowired
-	BillPw billPw;
-	@Autowired
-	IssuerPw issuerPw;
-	@Autowired
-	FlatSpecPw flatSpecPw;
+	public void injectDependencies(BuildingPw buildingPw, FlatPw flatPw, OwnerPw ownerPw, ParkingPw parkingPw, BillPw billPw,	IssuerPw issuerPw, FlatSpecPw flatSpecPw, WarehousePw warehousePw) {
+	 this.buildingPw = buildingPw;
+	 this.flatPw = flatPw;
+	 this.ownerPw = ownerPw;
+	 this.parkingPw = parkingPw;
+	 this.billPw = billPw;
+	 this.issuerPw = issuerPw;
+	 this.flatSpecPw = flatSpecPw;
+	 this.warehousePw = warehousePw;
+	};
 
 	@Test
 	public void execute() {
@@ -51,21 +66,24 @@ public class TestCreateEntitiesGeneral {
 		/**
 		 *  Persist to DB
 		 */
+				/**
+		 *  Persist to DB
+		 */
 		Building building = new Building();
 		building.setOwnershipMillis(1000);
-		building.setAddressName("kalidromiou");
-		building.setAddressNo(102);
-		building.setBuiltDate(LocalDate.of(1989, 11, 5));
+		building.setAddressName(TestRandomInfoUtility.getStreetName());
+		building.setAddressNo(TestRandomInfoUtility.getRandom().nextInt(1, 200));
+		building.setBuiltDate(TestRandomInfoUtility.randomDate(LocalDate.of(1950, 1, 1), LocalDate.of(2000, 1, 1)));
 		building.setFlatsTotal(10);
-		building.setPostalCode(16899);
+		building.setPostalCode(TestRandomInfoUtility.getRandom().nextInt(50000));
 		building.setFloorsTotal(5);
 
 		building = buildingPw.save(building);
 
 		Owner owner = new Owner();
-		owner.setName("Koula");
-		owner.setSurname("Lona");
-		owner.setBirthDate(LocalDate.of(1980, 5, 17));
+		owner.setName(TestRandomInfoUtility.getFirstName());
+		owner.setSurname(TestRandomInfoUtility.getLastName());
+		owner.setBirthDate(TestRandomInfoUtility.randomDate(LocalDate.of(1950, 1, 1), LocalDate.now()));
 		owner.setSex(Sex.MALE);
 		owner = ownerPw.save(owner);
 
@@ -96,18 +114,50 @@ public class TestCreateEntitiesGeneral {
 		parking.setFlatId(flat.getFlatId());
 		parking = parkingPw.save(parking);
 
+		Warehouse warehouse = new Warehouse();
+		warehouse.setBuildingId(building.getBuildingId());
+		warehouse.setFlatId(flat.getFlatId());
+		warehouse.setName("D2");
+		warehouse.setArea(10);
+		warehouse = warehousePw.save(warehouse);
+
+		/**
+		 * They are store in database an will be read correctly should a read operation happens
+		 */
 		flat.setFlatSpec(flatSpec);
-		flat.setFlatSpec(flatSpec);
+		flat.setWarehouse(warehouse);
 		flat.setParking(parking);
-		flat = flatPw.save(flat);
+
+
+		Issuer issuer = new Issuer();
+		issuer.setName("DEH");
+		issuer.setServiceDescription("Paroxos Ilektrikou Reymatos");
+		issuer = issuerPw.save(issuer);
+
+		Bill bill = new Bill();
+		bill.setFlatId(flat.getFlatId());
+		bill.setBuildingId(building.getBuildingId());
+		bill.setIssuer(issuer);
+		bill.setAmountCharged(BigDecimal.valueOf(TestRandomInfoUtility.getRandom().nextDouble(1000, 2000)));
+		bill.setPaid(true);
+		bill = billPw.save(bill);
 		
 		/**
-		 * Retrive from DB
+		 * Retrive from DB. Correctly fetches all associated entities when reading operation happens.
 		 */
-		BuildingKey buildingKey = new BuildingKey();
-		buildingKey.setBuildingId(building.getBuildingId());
-		Building expectedBuilding = buildingPw.getReferenceById(buildingKey);
+		Building expectedBuilding;
+		try {
+			expectedBuilding = buildingPw.findById(building.getKey(BuildingKey.class)).get();
+			System.out.println("Comparing keys...");
+			System.out.println(expectedBuilding.getKey(BuildingKey.class));
+			System.out.println(building.getKey(BuildingKey.class));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
 		
+		
+
 		FlatKey flatKey = new FlatKey();
 		flatKey.setBuildingId(building.getBuildingId());
 		flatKey.setFlatId(flat.getFlatId());
@@ -115,8 +165,9 @@ public class TestCreateEntitiesGeneral {
 		
 		
 		/**
-		 * Assert equility
+		 * Assert equality. In memory agrees with database data.
 		 */
-		System.out.println("----------------" + assertThat(flat).usingRecursiveComparison().isEqualTo(expectedFlat));
+		System.out.println("ASSERTING ----------------" + assertThat(building).usingRecursiveComparison().isEqualTo(expectedBuilding));
+		System.out.println("ASSERTING ----------------" + assertThat(flat).usingRecursiveComparison().isEqualTo(expectedFlat));
 	}
 }

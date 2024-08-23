@@ -1,7 +1,6 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.io.Serializable;
-
+import com.angelos.koinoxrhsta.impl.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
 import jakarta.persistence.CascadeType;
@@ -19,6 +18,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,7 +30,7 @@ import lombok.ToString;
 @Data
 @IdClass(FlatKey.class)
 @Table(name = "TBFLAT")
-public class Flat implements Serializable{
+public class Flat extends Key<FlatKey> {
 
 	/**
 	 * flatId - ID
@@ -76,7 +76,7 @@ public class Flat implements Serializable{
     /**
 	 * flatSpec
 	 */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns(
     	    {
     	    	@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),
@@ -87,7 +87,7 @@ public class Flat implements Serializable{
     /**
      * 
      */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns(
     		{
 				@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),
@@ -98,19 +98,26 @@ public class Flat implements Serializable{
     /**
      * 
      */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumns(
     	    {
     	    	@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),
     	    	@JoinColumn(name = "FLAT_ID", referencedColumnName = "FLAT_ID", nullable = false, insertable = false, updatable = false)
     	    })
     private Warehouse warehouse;
+
+    /**
+	 * 
+	 */
+	@Version
+	@Column(name = "LAST_VERSION")
+	private Long lastVersion;
     
     /**
      * 
      */
     @Transient
     @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "flat")
+    @OneToOne(fetch = FetchType.LAZY)
     private Bill bill;
 }

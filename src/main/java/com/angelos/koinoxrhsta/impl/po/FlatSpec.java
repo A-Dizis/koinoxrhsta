@@ -1,24 +1,21 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.io.Serializable;
-
+import com.angelos.koinoxrhsta.impl.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 
 @Entity
 @Data
 @Table(name = "TBFLATSPEC")
 @IdClass(FlatSpecKey.class)
-public class FlatSpec implements Serializable {
+public class FlatSpec extends Key<FlatSpecKey> {
 
 	/**
 	 * flatId - ID
@@ -75,5 +72,12 @@ public class FlatSpec implements Serializable {
 	 */
     @Column(name = "BALCONIES_NO")
     private Integer balconiesNo;
+
+	/**
+	 * 
+	 */
+	@Version
+	@Column(name = "LAST_VERSION")
+	private Long lastVersion;
 
 }

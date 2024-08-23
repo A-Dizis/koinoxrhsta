@@ -1,12 +1,11 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.angelos.koinoxrhsta.impl.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,13 +19,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 
 @Entity
 @Data
 @IdClass(BillKey.class)
 @Table(name = "TBBILL")
-public class Bill implements Serializable {
+public class Bill extends Key<BillKey> {
 
 	/**
 	 * 
@@ -46,8 +46,8 @@ public class Bill implements Serializable {
     /**
 	 * issuer
 	 */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ISSUER_ID", referencedColumnName = "ISSUER_ID", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ISSUER_ID", nullable = false)
     private Issuer issuer;
 	
 	/**
@@ -103,6 +103,13 @@ public class Bill implements Serializable {
 	 */
     @Column(name = "BUILT_DT")
     private LocalDate builtDate;
+
+	/**
+	 * 
+	 */
+	@Version
+	@Column(name = "LAST_VERSION")
+	private Long lastVersion;
     
     /**
      * 

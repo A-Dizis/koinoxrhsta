@@ -1,10 +1,10 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.angelos.koinoxrhsta.impl.enums.Sex;
+import com.angelos.koinoxrhsta.impl.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
 import jakarta.persistence.Column;
@@ -20,6 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ import lombok.ToString;
 @Data
 @IdClass(OwnerKey.class)
 @Table(name = "TBOWNER")
-public class Owner implements Serializable {
+public class Owner extends Key<OwnerKey> {
 
 	/**
 	 * 
@@ -40,7 +41,7 @@ public class Owner implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "owner_generator")
 	@SequenceGenerator(name = "owner_generator", sequenceName = "SEQ_OWNER_ID", allocationSize = 1)
 	@Column(name = "OWNER_ID", nullable = false)
-	Long ownerId;
+	private Long ownerId;
 	
 	/**
 	 * name
@@ -66,12 +67,19 @@ public class Owner implements Serializable {
     @Column(name = "SEX")
     @Enumerated(EnumType.ORDINAL)
     private Sex sex;
+
+	/**
+	 * 
+	 */
+	@Version
+	@Column(name = "LAST_VERSION")
+	private Long lastVersion;
     
     /**
 	 *
 	 */
     @Transient
     @Setter(value = AccessLevel.NONE) @Getter(value = AccessLevel.NONE) @EqualsAndHashCode.Exclude @ToString.Exclude
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Flat> flats;
 }

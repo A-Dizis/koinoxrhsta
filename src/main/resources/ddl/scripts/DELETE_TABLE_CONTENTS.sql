@@ -1,0 +1,9 @@
+delete from koinoxrhsta.tbbill;
+delete from koinoxrhsta.tbflatspec;
+delete from koinoxrhsta.tbissuer;
+delete from koinoxrhsta.tbissuer;
+delete from koinoxrhsta.tbowner;
+delete from koinoxrhsta.tbparking;
+delete from koinoxrhsta.tbwarehouse;
+delete from koinoxrhsta.tbflat;
+delete from koinoxrhsta.tbbuilding;

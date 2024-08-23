@@ -1,7 +1,8 @@
 package com.angelos.koinoxrhsta.impl.po;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+
+import com.angelos.koinoxrhsta.impl.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
 import jakarta.persistence.Column;
@@ -12,20 +13,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
+
 
 @Entity
 @Data
 @IdClass(BuildingKey.class)
 @Table(name = "TBBUILDING")
-public class Building implements Serializable {
-	
+public class Building extends Key<BuildingKey> {
+
 	/**
      * buildingId
      */
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "building_generator")
-    @SequenceGenerator(name="building_generator", sequenceName = "SEQ_FLAT_ID", allocationSize = 1)
+    @SequenceGenerator(name="building_generator", sequenceName = "SEQ_BUILDING_ID", allocationSize = 1)
     @Column(name = "BUILDING_ID", nullable = false)
 	private Long buildingId;
 
@@ -70,5 +73,11 @@ public class Building implements Serializable {
      */
     @Column(name = "BUILT_DT")
     private LocalDate builtDate;
-        
+
+    /**
+	 * 
+	 */
+	@Version
+	@Column(name = "LAST_VERSION")
+	private Long lastVersion;
 }
