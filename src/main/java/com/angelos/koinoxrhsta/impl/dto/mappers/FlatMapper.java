@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.FlatDTO;
 import com.angelos.koinoxrhsta.impl.po.Flat;
+import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
 @Service
 public class FlatMapper implements Mapper<Flat, FlatDTO> {
@@ -20,6 +21,11 @@ public class FlatMapper implements Mapper<Flat, FlatDTO> {
         BeanUtils.copyProperties(p, flat);
         flat.setOwner(ownerMapper.mapFromDto(p.getOwner()));
         //MORE TO ADD
+
+        FlatKey key = new FlatKey();
+        BeanUtils.copyProperties(p, key);
+        flat.setKey(key);
+
         return flat;
     }
 
@@ -29,6 +35,7 @@ public class FlatMapper implements Mapper<Flat, FlatDTO> {
         BeanUtils.copyProperties(t, dto);
         dto.setOwner(ownerMapper.mapToDto(t.getOwner()));
         //MORE TO ADD
+        
         return dto;
     }
 

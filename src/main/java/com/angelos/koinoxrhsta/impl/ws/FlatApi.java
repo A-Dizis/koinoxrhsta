@@ -3,7 +3,6 @@ package com.angelos.koinoxrhsta.impl.ws;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.angelos.koinoxrhsta.def.pw.FlatPw;
 import com.angelos.koinoxrhsta.impl.dto.FlatDTO;
 import com.angelos.koinoxrhsta.impl.dto.mappers.FlatMapper;
+import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
+import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
+import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
@@ -23,18 +24,21 @@ import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 @RequestMapping("/flats")
 public class FlatApi {
 
-    FlatPw flatPw;
     FlatMapper mapper;
+    GenericPersisterFactory gpFactory;
+    GenericPersister<Flat, FlatKey> gpFlat;
 
-    public FlatApi(FlatPw flatPw, FlatMapper mapper) {
-        this.flatPw = flatPw;
+    public FlatApi(GenericPersisterFactory gpFactory, FlatMapper mapper) throws RepositoryException {
+        this.gpFactory = gpFactory;
         this.mapper = mapper;
+
+        gpFlat = gpFactory.create(Flat.class);
     }
 
     @RequestMapping(path = "/findAll", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<FlatDTO>> allFlat() {
 
-        List<Flat> flats = flatPw.findAll();
+        List<Flat> flats = gpFlat.findAll();
 
         List<FlatDTO> flatDTOs = flats.stream().map(q -> mapper.mapToDto(q)).collect(Collectors.toList());
 
@@ -44,9 +48,8 @@ public class FlatApi {
     @RequestMapping(path = "/add", method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FlatDTO> addFlat(@RequestBody(required = true) FlatDTO flatDTO) {
 
-        System.out.println(flatDTO);
         Flat flat = mapper.mapFromDto(flatDTO);
-        flatPw.save(flat);
+        gpFlat.save(flat);
         flatDTO = mapper.mapToDto(flat);
 
         return ResponseEntity.ok().body(flatDTO);
@@ -55,10 +58,9 @@ public class FlatApi {
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeFlat(@RequestBody(required = true) FlatDTO flatDTO) {
 
-        FlatKey key = new FlatKey();
-        BeanUtils.copyProperties(flatDTO, key);
-        Flat flat = flatPw.findById(key).get();
-        flatPw.delete(flat);
+        Flat flat = mapper.mapFromDto(flatDTO);
+        gpFlat.read(flat);
+        gpFlat.delete(flat);
 
         return ResponseEntity.ok().body("Flat deleted");
     }
