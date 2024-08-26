@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.BuildingDTO;
-import com.angelos.koinoxrhsta.impl.dto.mappers.BuildingMapper;
+import com.angelos.koinoxrhsta.impl.exception.MapperException;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
+import com.angelos.koinoxrhsta.impl.infrastructure.GenericMapperFactory;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Building;
@@ -24,20 +26,21 @@ import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 @RequestMapping("/buildings")
 public class BuildingApi {
 
-    BuildingMapper mapper;
+    GenericMapperFactory gmFactory;
     GenericPersisterFactory gpFactory;
     GenericPersister<Building, BuildingKey> gpFlat;
+    Mapper<Building, BuildingDTO> mapper;
 
-    public BuildingApi(BuildingMapper mapper, GenericPersisterFactory gpFactory) throws RepositoryException {
-        this.mapper = mapper;
+    public BuildingApi(GenericPersisterFactory gpFactory, GenericMapperFactory gmFactory) throws RepositoryException, MapperException {
+        this.gmFactory = gmFactory;
         this.gpFactory = gpFactory;
 
+        mapper = gmFactory.create(Building.class);
         gpFlat = gpFactory.create(Building.class);
     }
 
     @RequestMapping(path = "/findAll", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<BuildingDTO>> allBuilding() throws RepositoryException {
-
+    public ResponseEntity<List<BuildingDTO>> allBuilding() throws RepositoryException, MapperException {
         List<Building> buildings = gpFlat.findAll();
         
         List<BuildingDTO> buildingDTOs = buildings.stream().map(q -> mapper.mapToDto(q)).collect(Collectors.toList());
@@ -46,8 +49,7 @@ public class BuildingApi {
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BuildingDTO> addBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException{
-       
+    public ResponseEntity<BuildingDTO> addBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException, MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
         gpFlat.save(building);
         buildingDTO = mapper.mapToDto(building); 
@@ -56,8 +58,7 @@ public class BuildingApi {
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BuildingDTO> alterBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException{
-       
+    public ResponseEntity<BuildingDTO> alterBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException, MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
         try {
             gpFlat.update(building);
@@ -71,13 +72,12 @@ public class BuildingApi {
     }
 
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeBuilding(@RequestBody(required = true) BuildingDTO buildingDTO){
-        
+    public ResponseEntity<String> removeBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
         building = gpFlat.read(building);
         gpFlat.delete(building);
 
-        return ResponseEntity.ok().body("Building  " +  buildingDTO + " deleted");
+        return ResponseEntity.ok().body("Building deleted");
     }
     
 }

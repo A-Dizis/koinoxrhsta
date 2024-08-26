@@ -8,9 +8,6 @@ import com.angelos.koinoxrhsta.impl.dto.OwnerDTO;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
-/**
- * OwnerMapper
- */
 @Service
 public class OwnerMapper implements Mapper<Owner, OwnerDTO> {
 

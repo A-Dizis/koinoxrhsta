@@ -38,7 +38,6 @@ public class OwnerApi {
 
     @RequestMapping(path = "/findAll", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OwnerDTO>> allOwners() {
-
         List<Owner> owners = gpOwner.findAll();
 
         List<OwnerDTO> ownerDTOs = owners.stream().map(q -> mapper.mapToDto(q)).collect(Collectors.toList());
@@ -48,11 +47,10 @@ public class OwnerApi {
 
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeOwner(@RequestBody(required = true) OwnerDTO ownerDTO) {
-
         Owner owner = mapper.mapFromDto(ownerDTO);
         gpOwner.read(owner);
         gpOwner.delete(owner);
 
-        return ResponseEntity.ok().body("Owner deleted" + ownerDTO);
+        return ResponseEntity.ok().body("Owner deleted");
     }
 }

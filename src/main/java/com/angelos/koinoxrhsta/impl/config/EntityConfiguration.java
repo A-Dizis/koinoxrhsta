@@ -24,9 +24,8 @@ import lombok.Getter;
 
 public final class EntityConfiguration {
     
-    @SuppressWarnings("rawtypes")
     @Getter
-    private static Map<Class, Class> EntityKeyMap = new HashMap<>();
+    private static Map<Class<?>, Class<?>> EntityKeyMap = new HashMap<>();
 
     private EntityConfiguration(){
     }
