@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.angelos.koinoxrhsta.def.infrastructure.Key;
+import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
 
 import lombok.Setter;
 
@@ -39,8 +40,13 @@ public class GenericPersister<T extends Key<K>, K> {
      * @param <K>    Entity Key
      * @param entity
      * @return
+     * @throws RepositoryException 
      */
-    public T update(T entity) {
+    public T update(T entity) throws RepositoryException {
+        if(!jpaRepository.findById(entity.getKey()).isPresent()) {
+            throw new RepositoryException("No entity was found to update.");
+        }
+
         return (T) this.save(entity);
     }
 
@@ -64,11 +70,29 @@ public class GenericPersister<T extends Key<K>, K> {
      */
     public T read(T entity) {
         
-        Optional<T> optionalEntity = jpaRepository.findById(((Key<K>) entity).getKey());
+        Optional<T> optionalEntity = jpaRepository.findById(entity.getKey());
 
         return optionalEntity.isPresent() ? optionalEntity.get() : null;
     }
 
+    /**
+     * 
+     * @param <T>    Entity
+     * @param <K>    Entity Key
+     * @param entity
+     * @return
+     */
+    public T read(K entityKey) {
+        
+        Optional<T> optionalEntity = jpaRepository.findById(entityKey);
+
+        return optionalEntity.isPresent() ? optionalEntity.get() : null;
+    }
+
+    /**
+     * 
+     * @return
+     */
     public List<T> findAll() {
         return jpaRepository.findAll();
     }

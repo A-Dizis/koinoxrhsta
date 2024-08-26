@@ -14,13 +14,23 @@ public class GenericPersisterFactory {
         this.repositoryUtils = repositoryUtils;
     }
 
-    public <T extends Key<K>, K> GenericPersister<T, K> create(Class<T> persisterClass) throws RepositoryException {
-        if(!repositoryUtils.getAllAvailableRepositories().contains(persisterClass.getName())) {
-            throw new RepositoryException("Persister for class " + persisterClass.getName() + " was not found.");
+    /**
+     * This method return a generic persister object (DAO)
+     * for the given entity to be persisted.
+     * 
+     * @param <T>
+     * @param <K>
+     * @param entityClass
+     * @return GenericPersister<T, K>
+     * @throws RepositoryException
+     */
+    public <T extends Key<K>, K> GenericPersister<T, K> create(Class<T> entityClass) throws RepositoryException {
+        if(!repositoryUtils.getAllAvailableRepositories().contains(entityClass.getName())) {
+            throw new RepositoryException("Persister for class " + entityClass.getName() + " was not found.");
         }
 
         GenericPersister<T, K> genericPersister = new GenericPersister<>();
-        genericPersister.setJpaRepository(repositoryUtils.getRepoFor(persisterClass));
+        genericPersister.setJpaRepository(repositoryUtils.getRepoFor(entityClass));
         
         return genericPersister;
     }
