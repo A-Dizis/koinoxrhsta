@@ -27,6 +27,7 @@ import lombok.ToString;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(IssuerKey.class)
 @Table(name = "TBISSUER")
 public class Issuer extends KeyImpl<IssuerKey> implements Key<IssuerKey> {

@@ -11,9 +11,11 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "TBFLATSPEC")
 @IdClass(FlatSpecKey.class)
 public class FlatSpec extends KeyImpl<FlatSpecKey> implements Key<FlatSpecKey> {

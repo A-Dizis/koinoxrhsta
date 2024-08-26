@@ -11,9 +11,11 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(WarehouseKey.class)
 @Table(name = "TBWAREHOUSE")
 public class Warehouse extends KeyImpl<WarehouseKey> implements Key<WarehouseKey> {

@@ -29,6 +29,7 @@ import lombok.ToString;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(FlatKey.class)
 @Table(name = "TBFLAT")
 public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {

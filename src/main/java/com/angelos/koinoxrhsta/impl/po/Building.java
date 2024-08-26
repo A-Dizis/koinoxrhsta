@@ -16,9 +16,11 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(BuildingKey.class)
 @Table(name = "TBBUILDING")
 public class Building extends KeyImpl<BuildingKey> implements Key<BuildingKey> {

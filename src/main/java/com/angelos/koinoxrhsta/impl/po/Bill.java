@@ -22,9 +22,11 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(BillKey.class)
 @Table(name = "TBBILL")
 public class Bill extends KeyImpl<BillKey> implements Key<BillKey>{

@@ -31,6 +31,7 @@ import lombok.ToString;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(OwnerKey.class)
 @Table(name = "TBOWNER")
 public class Owner extends KeyImpl<OwnerKey> implements Key<OwnerKey> {

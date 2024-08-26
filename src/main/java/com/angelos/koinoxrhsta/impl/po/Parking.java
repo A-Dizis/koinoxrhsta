@@ -14,9 +14,11 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 @IdClass(ParkingKey.class)
 @Table(name = "TBPARKING")
 public class Parking extends KeyImpl<ParkingKey> implements Key<ParkingKey> {
