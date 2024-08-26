@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface OwnerPw extends JpaRepository<Owner, OwnerKey>{

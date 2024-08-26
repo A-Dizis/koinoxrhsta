@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface FlatPw extends JpaRepository<Flat, FlatKey>{

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Warehouse;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface WarehousePw extends JpaRepository<Warehouse, WarehouseKey>{

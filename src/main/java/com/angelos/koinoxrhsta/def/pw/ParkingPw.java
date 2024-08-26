@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Parking;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface ParkingPw extends JpaRepository<Parking, ParkingKey>{

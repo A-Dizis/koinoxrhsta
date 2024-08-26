@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface BuildingPw extends JpaRepository<Building, BuildingKey> {

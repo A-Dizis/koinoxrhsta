@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface BillPw extends JpaRepository<Bill, BillKey>{

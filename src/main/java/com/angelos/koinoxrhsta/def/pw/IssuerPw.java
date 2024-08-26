@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.angelos.koinoxrhsta.impl.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.keys.IssuerKey;
 
+@Deprecated
 @CrossOrigin
 @Repository
 public interface IssuerPw extends JpaRepository<Issuer, IssuerKey>{
