@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.angelos.koinoxrhsta.def.dto.DTO;
 import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.BuildingDTO;
 import com.angelos.koinoxrhsta.impl.exception.MapperException;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
+import com.angelos.koinoxrhsta.impl.infrastructure.GenericMapper;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericMapperFactory;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
@@ -27,10 +29,10 @@ import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 public class BuildingApi {
 
     GenericMapperFactory gmFactory;
+    GenericMapper<Building, BuildingDTO> mapper;
     GenericPersisterFactory gpFactory;
     GenericPersister<Building, BuildingKey> gpFlat;
-    Mapper<Building, BuildingDTO> mapper;
-
+    
     public BuildingApi(GenericPersisterFactory gpFactory, GenericMapperFactory gmFactory) throws RepositoryException, MapperException {
         this.gmFactory = gmFactory;
         this.gpFactory = gpFactory;

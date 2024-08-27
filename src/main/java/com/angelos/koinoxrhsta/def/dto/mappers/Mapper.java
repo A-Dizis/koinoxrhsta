@@ -6,7 +6,7 @@ import com.angelos.koinoxrhsta.def.dto.DTO;
  * Mapper interface between Entity class <T>
  * and DTO<T> class <P>. 
  */
-public interface Mapper<T, P extends DTO<T>> {
+public abstract class Mapper<T, P extends DTO<T>> {
 
     /**
      * Maps from a DTO to an entity.
@@ -14,7 +14,7 @@ public interface Mapper<T, P extends DTO<T>> {
      * @param p
      * @return entity
      */
-    public T mapFromDto(P p);
+    public abstract T mapFromDto(P p);
 
     /**
      * Maps from an entity to a DTO.
@@ -22,5 +22,5 @@ public interface Mapper<T, P extends DTO<T>> {
      * @param p
      * @return entity
      */
-    public P mapToDto(T t);
+    public abstract P mapToDto(T t);
 }

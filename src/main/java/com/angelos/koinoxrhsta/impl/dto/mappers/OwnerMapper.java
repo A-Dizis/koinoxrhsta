@@ -9,7 +9,7 @@ import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
 @Service
-public class OwnerMapper implements Mapper<Owner, OwnerDTO> {
+public class OwnerMapper extends Mapper<Owner, OwnerDTO> {
 
     @Override
     public Owner mapFromDto(OwnerDTO p) {

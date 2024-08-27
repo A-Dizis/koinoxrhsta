@@ -10,7 +10,7 @@ import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
 @Service
-public class FlatMapper implements Mapper<Flat, FlatDTO> {
+public class FlatMapper extends Mapper<Flat, FlatDTO> {
 
     @Autowired
     OwnerMapper ownerMapper;

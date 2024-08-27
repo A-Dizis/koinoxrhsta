@@ -9,7 +9,7 @@ import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
 @Service
-public class BuildingMapper implements Mapper<Building, BuildingDTO> {
+public class BuildingMapper extends Mapper<Building, BuildingDTO> {
 
     @Override
     public Building mapFromDto(BuildingDTO p) {
