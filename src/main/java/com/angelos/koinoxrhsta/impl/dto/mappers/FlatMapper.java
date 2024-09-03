@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.FlatDTO;
+import com.angelos.koinoxrhsta.impl.infrastructure.annotations.MapperClass;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
+@MapperClass(mapperClass = FlatMapper.class, entityClass = Flat.class)
 @Service
 public class FlatMapper extends Mapper<Flat, FlatDTO> {
 

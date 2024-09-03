@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 
 import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.OwnerDTO;
+import com.angelos.koinoxrhsta.impl.infrastructure.annotations.MapperClass;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
+@MapperClass(mapperClass = OwnerMapper.class, entityClass = Owner.class)
 @Service
 public class OwnerMapper extends Mapper<Owner, OwnerDTO> {
 

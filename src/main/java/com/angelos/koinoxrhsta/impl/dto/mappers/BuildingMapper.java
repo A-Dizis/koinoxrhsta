@@ -5,11 +5,17 @@ import org.springframework.stereotype.Service;
 
 import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.BuildingDTO;
+import com.angelos.koinoxrhsta.impl.infrastructure.annotations.MapperClass;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
+@MapperClass(mapperClass = BuildingMapper.class, entityClass = Building.class)
 @Service
 public class BuildingMapper extends Mapper<Building, BuildingDTO> {
+
+    public BuildingMapper() {
+
+    }
 
     @Override
     public Building mapFromDto(BuildingDTO p) {
