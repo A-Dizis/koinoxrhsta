@@ -36,7 +36,7 @@ public class OwnerApi {
     }
 
 
-    @RequestMapping(path = "/findAll", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OwnerDTO>> allOwners() {
         List<Owner> owners = gpOwner.findAll();
 
