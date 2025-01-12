@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.angelos.koinoxrhsta.def.dto.DTO;
-import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 import com.angelos.koinoxrhsta.impl.dto.BuildingDTO;
 import com.angelos.koinoxrhsta.impl.exception.MapperException;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
@@ -31,19 +29,19 @@ public class BuildingApi {
     GenericMapperFactory gmFactory;
     GenericMapper<Building, BuildingDTO> mapper;
     GenericPersisterFactory gpFactory;
-    GenericPersister<Building, BuildingKey> gpFlat;
+    GenericPersister<Building, BuildingKey> gpBuilding;
     
     public BuildingApi(GenericPersisterFactory gpFactory, GenericMapperFactory gmFactory) throws RepositoryException, MapperException {
         this.gmFactory = gmFactory;
         this.gpFactory = gpFactory;
 
         mapper = gmFactory.create(Building.class);
-        gpFlat = gpFactory.create(Building.class);
+        gpBuilding = gpFactory.create(Building.class);
     }
 
-    @RequestMapping(path = "/findAll", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BuildingDTO>> allBuilding() throws RepositoryException, MapperException {
-        List<Building> buildings = gpFlat.findAll();
+        List<Building> buildings = gpBuilding.findAll();
         
         List<BuildingDTO> buildingDTOs = buildings.stream().map(q -> mapper.mapToDto(q)).collect(Collectors.toList());
 
@@ -53,7 +51,7 @@ public class BuildingApi {
     @RequestMapping(path = "/add", method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BuildingDTO> addBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException, MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
-        gpFlat.save(building);
+        gpBuilding.save(building);
         buildingDTO = mapper.mapToDto(building); 
 
         return ResponseEntity.ok().body(buildingDTO);
@@ -63,7 +61,7 @@ public class BuildingApi {
     public ResponseEntity<BuildingDTO> alterBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException, MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
         try {
-            gpFlat.update(building);
+            gpBuilding.update(building);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -76,8 +74,8 @@ public class BuildingApi {
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> removeBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
-        building = gpFlat.read(building);
-        gpFlat.delete(building);
+        building = gpBuilding.read(building);
+        gpBuilding.delete(building);
 
         return ResponseEntity.ok().body("Building deleted");
     }
