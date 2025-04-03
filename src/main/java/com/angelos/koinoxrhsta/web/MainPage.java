@@ -1,5 +1,6 @@
 package com.angelos.koinoxrhsta.web;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,8 @@ public class MainPage {
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        model.addAttribute("buildings", gpBuilding.findAll());
+        PageRequest page = PageRequest.of(0, 10);
+        model.addAttribute("buildings", gpBuilding.findAll(page));
         return "index";
     }
 

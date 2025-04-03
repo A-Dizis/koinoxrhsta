@@ -3,6 +3,7 @@ package com.angelos.koinoxrhsta.impl.infrastructure;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -95,5 +96,13 @@ public class GenericPersister<T extends Key<K>, K> {
      */
     public List<T> findAll() {
         return jpaRepository.findAll();
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<T> findAll(Pageable pageable) {
+        return jpaRepository.findAll(pageable).getContent();
     }
 }
