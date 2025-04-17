@@ -31,7 +31,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(FlatKey.class)
-@Table(name = "TBFLAT")
+@Table(name = "TBFLAT", schema = "koinoxrhsta")
 public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
 
 	/**
@@ -39,7 +39,7 @@ public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
 	 */
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flat_generator")
-    @SequenceGenerator(name="flat_generator", sequenceName = "SEQ_FLAT_ID", allocationSize = 1)
+    @SequenceGenerator(name="flat_generator", sequenceName = "SEQ_FLAT_ID", allocationSize = 1, schema = "koinoxrhsta")
     @Column(name = "FLAT_ID", nullable = false)
 	private Long flatId;
 	

@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(BuildingKey.class)
-@Table(name = "TBBUILDING")
+@Table(name = "TBBUILDING", schema = "koinoxrhsta")
 public class Building extends KeyImpl<BuildingKey> implements Key<BuildingKey> {
 
     /**
@@ -30,7 +30,7 @@ public class Building extends KeyImpl<BuildingKey> implements Key<BuildingKey> {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "building_generator")
-    @SequenceGenerator(name = "building_generator", sequenceName = "SEQ_BUILDING_ID", allocationSize = 1)
+    @SequenceGenerator(name = "building_generator", sequenceName = "SEQ_BUILDING_ID", allocationSize = 1, schema = "koinoxrhsta")
     @Column(name = "BUILDING_ID", nullable = false)
     private Long buildingId;
 

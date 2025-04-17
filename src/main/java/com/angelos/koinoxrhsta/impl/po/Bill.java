@@ -28,7 +28,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(BillKey.class)
-@Table(name = "TBBILL")
+@Table(name = "TBBILL", schema = "koinoxrhsta")
 public class Bill extends KeyImpl<BillKey> implements Key<BillKey>{
 
 	/**
@@ -36,7 +36,7 @@ public class Bill extends KeyImpl<BillKey> implements Key<BillKey>{
 	 */
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "receipt_generator")
-    @SequenceGenerator(name="receipt_generator", sequenceName = "SEQ_RECEIPT_ID", allocationSize = 1)
+    @SequenceGenerator(name="receipt_generator", sequenceName = "SEQ_RECEIPT_ID", allocationSize = 1, schema = "koinoxrhsta")
     @Column(name = "RECEIPT_ID", nullable = false)
 	private Long receiptNo;
 

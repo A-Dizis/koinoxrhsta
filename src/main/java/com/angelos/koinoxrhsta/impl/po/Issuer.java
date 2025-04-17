@@ -29,7 +29,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(IssuerKey.class)
-@Table(name = "TBISSUER")
+@Table(name = "TBISSUER", schema = "koinoxrhsta")
 public class Issuer extends KeyImpl<IssuerKey> implements Key<IssuerKey> {
 
     /**
@@ -37,7 +37,7 @@ public class Issuer extends KeyImpl<IssuerKey> implements Key<IssuerKey> {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "issuer_generator")
-    @SequenceGenerator(name = "issuer_generator", sequenceName = "SEQ_ISSUER_ID", allocationSize = 1)
+    @SequenceGenerator(name = "issuer_generator", sequenceName = "SEQ_ISSUER_ID", allocationSize = 1, schema = "koinoxrhsta")
     @Column(name = "ISSUER_ID", nullable = false)
     private Long issuerId;
 

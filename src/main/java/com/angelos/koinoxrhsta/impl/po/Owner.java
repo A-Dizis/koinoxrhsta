@@ -33,7 +33,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(OwnerKey.class)
-@Table(name = "TBOWNER")
+@Table(name = "TBOWNER", schema = "koinoxrhsta")
 public class Owner extends KeyImpl<OwnerKey> implements Key<OwnerKey> {
 
 	/**
@@ -41,7 +41,7 @@ public class Owner extends KeyImpl<OwnerKey> implements Key<OwnerKey> {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "owner_generator")
-	@SequenceGenerator(name = "owner_generator", sequenceName = "SEQ_OWNER_ID", allocationSize = 1)
+	@SequenceGenerator(name = "owner_generator", sequenceName = "SEQ_OWNER_ID", allocationSize = 1, schema = "koinoxrhsta")
 	@Column(name = "OWNER_ID", nullable = false)
 	private Long ownerId;
 

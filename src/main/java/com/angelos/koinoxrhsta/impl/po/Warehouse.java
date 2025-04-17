@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(WarehouseKey.class)
-@Table(name = "TBWAREHOUSE")
+@Table(name = "TBWAREHOUSE", schema = "koinoxrhsta")
 public class Warehouse extends KeyImpl<WarehouseKey> implements Key<WarehouseKey> {
 
 	/**

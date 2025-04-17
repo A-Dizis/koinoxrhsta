@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Table(name = "TBFLATSPEC")
+@Table(name = "TBFLATSPEC", schema = "koinoxrhsta")
 @IdClass(FlatSpecKey.class)
 public class FlatSpec extends KeyImpl<FlatSpecKey> implements Key<FlatSpecKey> {
 

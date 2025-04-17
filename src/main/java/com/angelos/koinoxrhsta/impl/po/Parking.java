@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @IdClass(ParkingKey.class)
-@Table(name = "TBPARKING")
+@Table(name = "TBPARKING", schema = "koinoxrhsta")
 public class Parking extends KeyImpl<ParkingKey> implements Key<ParkingKey> {
 
 	/**
