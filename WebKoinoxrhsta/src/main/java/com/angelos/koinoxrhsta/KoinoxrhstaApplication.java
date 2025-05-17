@@ -7,9 +7,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 public class KoinoxrhstaApplication {
   public static void main(String[] args) throws Exception {
-
     new SpringApplicationBuilder()
-      .sources(CoreModuleApplication.class)
+      .sources(KoinoxrhstaApplication.class)
       .run(args);
   }
 }
