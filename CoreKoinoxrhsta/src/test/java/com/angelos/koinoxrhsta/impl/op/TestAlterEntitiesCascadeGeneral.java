@@ -4,10 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
@@ -23,8 +24,8 @@ import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
-@Import(TestConfig.class)
 public class TestAlterEntitiesCascadeGeneral {
 
 

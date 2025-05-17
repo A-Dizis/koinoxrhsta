@@ -36,7 +36,7 @@ import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest()
+@SpringBootTest
 public class TestCreateEntitiesGeneral extends Operation {
 
 	GenericPersisterFactory gpf;
