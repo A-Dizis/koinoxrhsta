@@ -9,7 +9,7 @@ public class KoinoxrhstaApplication {
   public static void main(String[] args) throws Exception {
 
     new SpringApplicationBuilder()
-      .sources(KoinoxrhstaApplication.class)
+      .sources(CoreModuleApplication.class)
       .run(args);
   }
 }

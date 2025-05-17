@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-public class KoinoxrhstaApplication {
+public class CoreModuleApplication {
   public static void main(String[] args) throws Exception {
     new SpringApplicationBuilder()
-      .sources(KoinoxrhstaApplication.class)
+      .sources(CoreModuleApplication.class)
       .run(args);
   }
 }
