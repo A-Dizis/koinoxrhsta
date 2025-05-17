@@ -1,8 +1,5 @@
 package com.angelos.koinoxrhsta.impl.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.Flat;
@@ -20,25 +17,19 @@ import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
-import lombok.Getter;
-
-public final class EntityConfiguration {
+public class CoreEntityConfiguration extends EntityConfiguration {
     
-    @Getter
-    private static Map<Class<?>, Class<?>> EntityKeyMap = new HashMap<>();
+    public CoreEntityConfiguration() {}
 
-    private EntityConfiguration(){
-    }
-
-    static{
-        EntityKeyMap.put(Bill.class, BillKey.class);
-        EntityKeyMap.put(Building.class, BuildingKey.class);
-        EntityKeyMap.put(Flat.class, FlatKey.class);
-        EntityKeyMap.put(FlatSpec.class, FlatSpecKey.class);
-        EntityKeyMap.put(Issuer.class, IssuerKey.class);
-        EntityKeyMap.put(Owner.class, OwnerKey.class);
-        EntityKeyMap.put(Parking.class, ParkingKey.class);
-        EntityKeyMap.put(Warehouse.class, WarehouseKey.class);
+    static {
+        addEntity(Bill.class, BillKey.class);
+        addEntity(Building.class, BuildingKey.class);
+        addEntity(Flat.class, FlatKey.class);
+        addEntity(FlatSpec.class, FlatSpecKey.class);
+        addEntity(Issuer.class, IssuerKey.class);
+        addEntity(Owner.class, OwnerKey.class);
+        addEntity(Parking.class, ParkingKey.class);
+        addEntity(Warehouse.class, WarehouseKey.class);
     }
 
 }

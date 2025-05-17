@@ -1,15 +1,17 @@
 package com.angelos.koinoxrhsta.impl.op;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.context.annotation.Import;
 
+import com.angelos.koinoxrhsta.impl.config.CoreEntityConfiguration;
+import com.angelos.koinoxrhsta.impl.config.CoreMapperConfiguration;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
@@ -24,15 +26,23 @@ import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest()
+@SpringBootTest
+@Import(TestConfig.class)
 public class TestAlterEntitiesCascadeGeneral {
+
+
 
 	GenericPersisterFactory gpf;
 	private GenericPersister<Building, BuildingKey> gpBuilding;
 	private GenericPersister<Owner, OwnerKey> gpOwner;
 	private GenericPersister<FlatSpec, FlatSpecKey> gpFlatSpec;
 	private GenericPersister<Flat, FlatKey> gpFlat;
+
+	@BeforeAll
+	public static void runBefore() {
+		new CoreEntityConfiguration();
+		new CoreMapperConfiguration();
+	}
 
 	@Autowired
 	void injectMocks(GenericPersisterFactory gpf) throws RepositoryException {
@@ -107,6 +117,7 @@ public class TestAlterEntitiesCascadeGeneral {
 		/**
 		 * Assert equality. In memory agrees with database data.
 		 */
-		System.out.println("ASSERTING ----------------" + assertThat(100).isEqualTo(expectedFlatSpec.getBedroomsNo()));
+		System.out.println("ASSERTING ----------------");
+		assertEquals(100, expectedFlatSpec.getBedroomsNo());
 	}
 }
