@@ -1,5 +1,7 @@
 package com.angelos.koinoxrhsta.impl.config;
 
+import org.springframework.context.annotation.Configuration;
+
 import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.Flat;
@@ -17,11 +19,11 @@ import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
+@Configuration
 public class CoreEntityConfiguration extends EntityConfiguration {
-    
-    public CoreEntityConfiguration() {}
 
-    static {
+    @Override
+    void configure() {
         addEntity(Bill.class, BillKey.class);
         addEntity(Building.class, BuildingKey.class);
         addEntity(Flat.class, FlatKey.class);

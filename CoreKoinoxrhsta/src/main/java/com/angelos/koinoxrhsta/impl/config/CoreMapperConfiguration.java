@@ -1,5 +1,7 @@
 package com.angelos.koinoxrhsta.impl.config;
 
+import org.springframework.context.annotation.Configuration;
+
 import com.angelos.koinoxrhsta.impl.dto.mappers.BuildingMapper;
 import com.angelos.koinoxrhsta.impl.dto.mappers.FlatMapper;
 import com.angelos.koinoxrhsta.impl.dto.mappers.OwnerMapper;
@@ -7,11 +9,11 @@ import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 
+@Configuration
 public class CoreMapperConfiguration extends MapperConfiguration {
 
-    public CoreMapperConfiguration() {}
-
-    static {
+    @Override
+    void configure() {
         // EntityKeyMap.put(Bill.class, BillMapper.class);
         addMapper(Building.class, BuildingMapper.class);
         addMapper(Flat.class, FlatMapper.class);

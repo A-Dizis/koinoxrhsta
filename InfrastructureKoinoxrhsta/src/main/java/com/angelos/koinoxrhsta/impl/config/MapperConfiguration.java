@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.angelos.koinoxrhsta.def.dto.mappers.Mapper;
 
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 
 public abstract class MapperConfiguration {
@@ -15,4 +16,7 @@ public abstract class MapperConfiguration {
     public static void addMapper(Class<?> clazz, Class<? extends Mapper<?,?>> clazzMapper) {
         getEntityKeyMap().put(clazz, clazzMapper);
     }
+
+    @PostConstruct
+    abstract void configure();
 }

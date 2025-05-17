@@ -4,14 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import com.angelos.koinoxrhsta.impl.config.CoreEntityConfiguration;
-import com.angelos.koinoxrhsta.impl.config.CoreMapperConfiguration;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
@@ -37,12 +34,6 @@ public class TestAlterEntitiesCascadeGeneral {
 	private GenericPersister<Owner, OwnerKey> gpOwner;
 	private GenericPersister<FlatSpec, FlatSpecKey> gpFlatSpec;
 	private GenericPersister<Flat, FlatKey> gpFlat;
-
-	@BeforeAll
-	public static void runBefore() {
-		new CoreEntityConfiguration();
-		new CoreMapperConfiguration();
-	}
 
 	@Autowired
 	void injectMocks(GenericPersisterFactory gpf) throws RepositoryException {
