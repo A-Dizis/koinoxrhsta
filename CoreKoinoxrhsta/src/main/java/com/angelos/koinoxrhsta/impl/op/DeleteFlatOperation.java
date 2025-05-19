@@ -6,12 +6,10 @@ import com.angelos.koinoxrhsta.def.infrastructure.Operation;
 import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
-import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.FlatSpec;
 import com.angelos.koinoxrhsta.impl.po.Parking;
 import com.angelos.koinoxrhsta.impl.po.Warehouse;
-import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
@@ -20,21 +18,23 @@ import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 @Component
 public class DeleteFlatOperation extends Operation {
 
-    GenericPersisterFactory gpf;
-
     Flat flat;
+
+    GenericPersisterFactory gpf;
+    DeleteBillsOfFlatOperation billDelOp;
 
     private GenericPersister<Flat, FlatKey> gpFlat;
     private GenericPersister<FlatSpec, FlatSpecKey> gpFlatSpec;
     private GenericPersister<Parking, ParkingKey> gpParking;
     private GenericPersister<Warehouse, WarehouseKey> gpWarehouse;
-    private GenericPersister<Bill, BillKey> gpBill;
+
 
     public void setFlat(Flat flat) {
         this.flat = flat;
     }
 
-    public DeleteFlatOperation(GenericPersisterFactory gpf) {
+    public DeleteFlatOperation(GenericPersisterFactory gpf, DeleteBillsOfFlatOperation billDelOp) {
+        this.billDelOp = billDelOp;
         this.gpf = gpf;
     }
 
@@ -50,7 +50,6 @@ public class DeleteFlatOperation extends Operation {
             gpFlatSpec = gpf.create(FlatSpec.class);
             gpParking = gpf.create(Parking.class);
             gpWarehouse = gpf.create(Warehouse.class);
-            gpBill = gpf.create(Bill.class);
         } catch (RepositoryException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -59,7 +58,8 @@ public class DeleteFlatOperation extends Operation {
         gpFlatSpec.delete(flat.getFlatSpec());
         gpParking.delete(flat.getParking());
         gpWarehouse.delete(flat.getWarehouse());
-        //@TODO Run bill deletion flow
+        billDelOp.setFlat(flat);
+        billDelOp.execute();
         gpFlat.delete(gpFlat.read(flat));
     }
     

@@ -1,8 +1,7 @@
 package com.angelos.koinoxrhsta.def.infrastructure;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,22 +10,26 @@ import com.angelos.koinoxrhsta.impl.exception.AbstractQueryException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
-import lombok.Getter;
+import lombok.Setter;
 
-public abstract class AbstractQuery<T> extends Operation {
+public abstract class AbstractQuery extends Operation {
 
     /**
-     * The {@link Type} of the argument T of the {@link AbstractQuery}.
+     * The class type of the resulting object of the {@link AbstractQuery}.
      */
-    @Getter
-    private Type type;
+    @Setter
+    private Class resultClazz;
 
     /**
      * {@link EntityManager} instance.
      */
     @PersistenceContext
     EntityManager entityManager;
+
+    /**
+     * Result returned after the query execution.
+     */
+    List resultList;
 
     /**
      * The sql input to be executed.
@@ -37,13 +40,12 @@ public abstract class AbstractQuery<T> extends Operation {
      * Parameters map of the arguments of the query.
      */
     protected Map<String, Object> params = new HashMap<>();
+    
 
     /**
      * Actual Class Type extraction during runtime.
      */
     protected AbstractQuery() {
-        Type superClass = getClass().getGenericSuperclass();
-        this.type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
     }
 
     /**
@@ -52,18 +54,21 @@ public abstract class AbstractQuery<T> extends Operation {
      * @param paramName
      * @param param
      */
-    public void setParam(String paramName, Object param) {
+    public final void setParam(String paramName, Object param) {
         params.put(paramName, param);
     }
 
-    @Transactional
     public void execute() {
-        setSql();
+        prepareQuery();
         doChecks();
 
-        Query query = entityManager.createNativeQuery(sql, type.getClass());
+        Query query = entityManager.createNativeQuery(sql, resultClazz);
         params.forEach((u, v) -> query.setParameter(u, v));
-        query.executeUpdate();
+        setResultList(query.getResultList());
+    }
+
+    protected void setResultList(List resultList){
+        this.resultList = resultList;
     }
 
     /**
@@ -77,6 +82,10 @@ public abstract class AbstractQuery<T> extends Operation {
                 throw new AbstractQueryException("Query is empty.");
             }
 
+            if(resultClazz == null) {
+                throw new AbstractQueryException("Query must return an object type.");
+            }
+
             for (Entry<String, Object> param : params.entrySet()) {
                 if (param.getValue() == null) {
                     throw new AbstractQueryException(String.format("Argument %s cannot be null", param.getKey()));
@@ -87,8 +96,12 @@ public abstract class AbstractQuery<T> extends Operation {
         }
     } 
 
+    public final List getResultList() {
+        return resultList;
+    }
+
     /**
-     * Hook in order to set the {@link AbstractQuery#sql} of the query.
+     * Hook in order to set the {@link AbstractQuery#sql}, {@link AbstractQuery#params} and {@link AbstractQuery#resultClazz} of the query.
      */
-    protected abstract void setSql();
+    protected abstract void prepareQuery();
 }

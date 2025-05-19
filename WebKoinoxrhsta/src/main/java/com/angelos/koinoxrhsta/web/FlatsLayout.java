@@ -35,6 +35,8 @@ public class FlatsLayout extends VerticalLayout {
         deleteFlatOp.setFlat(event.getItem());
         deleteFlatOp.execute();
     });
+    grid.getDataProvider().refreshAll();
+
 
     // Add components to the layout to show them
     add(new H1("All FLATS"), grid);

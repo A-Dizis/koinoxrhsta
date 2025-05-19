@@ -53,7 +53,7 @@ public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
     /**
 	 * owner
 	 */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWNER_ID", referencedColumnName = "OWNER_ID")
     private Owner owner;
 
