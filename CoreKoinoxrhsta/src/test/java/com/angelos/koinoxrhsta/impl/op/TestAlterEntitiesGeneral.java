@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
-import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.Flat;
@@ -26,7 +26,7 @@ import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestAlterEntitiesCascadeGeneral {
+public class TestAlterEntitiesGeneral {
 
 
 
@@ -37,7 +37,7 @@ public class TestAlterEntitiesCascadeGeneral {
 	private GenericPersister<Flat, FlatKey> gpFlat;
 
 	@Autowired
-	void injectMocks(GenericPersisterFactory gpf) throws RepositoryException {
+	void injectMocks(GenericPersisterFactory gpf) throws DataException {
 		this.gpf = gpf;
 
 		gpBuilding = gpf.create(Building.class);
@@ -47,7 +47,7 @@ public class TestAlterEntitiesCascadeGeneral {
 	}
 
 	@Test
-	public void execute() {
+	public void execute() throws DataException {
 
 		/**
 		 *  Persist to DB

@@ -1,9 +1,14 @@
 package com.angelos.koinoxrhsta.impl.infrastructure;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.springframework.stereotype.Service;
 
+import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.def.infrastructure.Key;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
+import com.angelos.koinoxrhsta.impl.config.GenericPersisterConfiguration;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
+import com.angelos.koinoxrhsta.impl.exception.GenericPersisterCreationException;
 
 @Service
 public class GenericPersisterFactory {
@@ -22,16 +27,33 @@ public class GenericPersisterFactory {
      * @param <K>
      * @param entityClass
      * @return GenericPersister<T, K>
-     * @throws RepositoryException
+     * @throws DataException
+     * @throws GenericPersisterCreationException 
      */
-    public <T extends Key<K>, K> GenericPersister<T, K> create(Class<T> entityClass) throws RepositoryException {
+    @SuppressWarnings("unchecked")
+    public <T extends Key<K>, K> GenericPersister<T, K> create(Class<T> entityClass) throws DataException {
         if(!repositoryUtils.getAllAvailableRepositories().contains(entityClass.getName())) {
-            throw new RepositoryException("Persister for class " + entityClass.getName() + " was not found.");
+            throw new DataException("Persister for class " + entityClass.getName() + " was not found.");
         }
 
-        GenericPersister<T, K> genericPersister = new GenericPersister<>();
-        genericPersister.setJpaRepository(repositoryUtils.getRepoFor(entityClass));
+        Class<? extends GenericPersister<?, ?>> persisterClazz = GenericPersisterConfiguration.getGenericPersisterKeyMap().get(entityClass);
+        if(persisterClazz == null) {
+            GenericPersister<T, K> genericPersister = new GenericPersisterImpl<>();
+            genericPersister.setJpaRepository(repositoryUtils.getRepoFor(entityClass));
+            genericPersister.setRepositoryUtils(repositoryUtils);
+            
+            return genericPersister;
+        }
         
-        return genericPersister;
+        GenericPersister<T, K> concreteGenericPersister;
+        try {
+            concreteGenericPersister = (GenericPersister<T, K>) persisterClazz.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            throw new RuntimeException(new GenericPersisterCreationException("Persister mapping for " + entityClass.getName() + " failed."));
+        }
+        concreteGenericPersister.setJpaRepository(repositoryUtils.getRepoFor(entityClass));
+        concreteGenericPersister.setRepositoryUtils(repositoryUtils);
+        return concreteGenericPersister;
     }
 }

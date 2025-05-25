@@ -4,7 +4,6 @@ import com.angelos.koinoxrhsta.def.infrastructure.Key;
 import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -78,7 +77,7 @@ public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
     /**
 	 * flatSpec
 	 */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns(
     	    {
     	    	@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),
@@ -89,7 +88,7 @@ public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
     /**
      * 
      */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns(
     		{
 				@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),
@@ -100,7 +99,7 @@ public class Flat extends KeyImpl<FlatKey> implements Key<FlatKey> {
     /**
      * 
      */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns(
     	    {
     	    	@JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID", nullable = false, insertable = false, updatable = false),

@@ -17,7 +17,7 @@ public class FindBillsOfFlatQuery extends AbstractQuery {
 
     @Override
     protected void prepareQuery() {
-        sql = "SELECT * FROM koinoxrhsta.TBBILL WHERE flat_id =:flatId  AND building_id =:buildingId";
+        setSql("SELECT * FROM koinoxrhsta.TBBILL WHERE flat_id =:flatId  AND building_id =:buildingId");
 
         setParam("flatId", flatKey.getFlatId());
         setParam("buildingId", flatKey.getBuildingId());

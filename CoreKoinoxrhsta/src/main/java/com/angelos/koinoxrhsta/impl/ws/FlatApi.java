@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.dto.FlatDTO;
 import com.angelos.koinoxrhsta.impl.dto.mappers.FlatMapper;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
-import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
+import com.angelos.koinoxrhsta.impl.exception.NullArgumentException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
@@ -28,7 +29,7 @@ public class FlatApi {
     GenericPersisterFactory gpFactory;
     GenericPersister<Flat, FlatKey> gpFlat;
 
-    public FlatApi(GenericPersisterFactory gpFactory, FlatMapper mapper) throws RepositoryException {
+    public FlatApi(GenericPersisterFactory gpFactory, FlatMapper mapper) throws DataException {
         this.gpFactory = gpFactory;
         this.mapper = mapper;
 
@@ -46,21 +47,30 @@ public class FlatApi {
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<FlatDTO> addFlat(@RequestBody(required = true) FlatDTO flatDTO) {
+    public ResponseEntity<FlatDTO> addFlat(@RequestBody(required = true) FlatDTO flatDTO) throws DataException {
 
         Flat flat = mapper.mapFromDto(flatDTO);
-        gpFlat.save(flat);
+        try {
+            gpFlat.save(flat);
+        } catch (NullArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         flatDTO = mapper.mapToDto(flat);
 
         return ResponseEntity.ok().body(flatDTO);
     }
 
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeFlat(@RequestBody(required = true) FlatDTO flatDTO) {
+    public ResponseEntity<String> removeFlat(@RequestBody(required = true) FlatDTO flatDTO) throws DataException {
 
         Flat flat = mapper.mapFromDto(flatDTO);
-        gpFlat.read(flat);
-        gpFlat.delete(flat);
+        try {
+            gpFlat.read(flat);
+            gpFlat.delete(flat);
+        } catch (NullArgumentException e) {
+            e.printStackTrace();
+        }
 
         return ResponseEntity.ok().body("Flat deleted");
     }

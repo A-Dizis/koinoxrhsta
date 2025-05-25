@@ -12,10 +12,10 @@ import lombok.Getter;
 public abstract class MapperConfiguration {
     
     @Getter
-    private static Map<Class<?>, Class<? extends Mapper<?,?>>> EntityKeyMap = new HashMap<>();
+    private static Map<Class<?>, Class<? extends Mapper<?,?>>> MapperKeyMap = new HashMap<>();
 
     public static <E> void addMapper(Class<E> clazz, Class<? extends Mapper<E, ? extends DTO<E>>> clazzMapper) {
-        getEntityKeyMap().put(clazz, clazzMapper);
+        getMapperKeyMap().put(clazz, clazzMapper);
     }
 
     @PostConstruct

@@ -16,7 +16,7 @@ public class GenericMapperFactory {
     @SuppressWarnings("unchecked")
     public <T, P extends DTO<T>> GenericMapper<T,P> create(Class<T> entityClazz) throws MapperException {
         
-        Class<? extends Mapper<?, ?>> mapperClazz = MapperConfiguration.getEntityKeyMap().get(entityClazz);
+        Class<? extends Mapper<?, ?>> mapperClazz = MapperConfiguration.getMapperKeyMap().get(entityClazz);
         if(mapperClazz == null) {
             throw new MapperException("Mapper for " + entityClazz.getName() + " was not found");
         }

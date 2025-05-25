@@ -18,7 +18,7 @@ public abstract class AbstractQuery extends Operation {
      * The class type of the resulting object of the {@link AbstractQuery}.
      */
     @Setter
-    private Class resultClazz;
+    Class<?> resultClazz;
 
     /**
      * {@link EntityManager} instance.
@@ -29,17 +29,18 @@ public abstract class AbstractQuery extends Operation {
     /**
      * Result returned after the query execution.
      */
-    List resultList;
+    static List<?> resultList;
 
     /**
      * The sql input to be executed.
      */
-    protected String sql = "";
+    @Setter
+    String sql = "";
 
     /**
      * Parameters map of the arguments of the query.
      */
-    protected Map<String, Object> params = new HashMap<>();
+    Map<String, Object> params = new HashMap<>();
     
 
     /**
@@ -58,6 +59,7 @@ public abstract class AbstractQuery extends Operation {
         params.put(paramName, param);
     }
 
+    @Override
     public void execute() {
         prepareQuery();
         doChecks();
@@ -67,8 +69,14 @@ public abstract class AbstractQuery extends Operation {
         setResultList(query.getResultList());
     }
 
+    @SuppressWarnings("rawtypes")
     protected void setResultList(List resultList){
-        this.resultList = resultList;
+        if(resultList == null || resultList.isEmpty()) {
+            AbstractQuery.resultList = null;
+        } else {
+             AbstractQuery.resultList = resultList;
+        }
+       
     }
 
     /**
@@ -96,6 +104,7 @@ public abstract class AbstractQuery extends Operation {
         }
     } 
 
+    @SuppressWarnings("rawtypes")
     public final List getResultList() {
         return resultList;
     }

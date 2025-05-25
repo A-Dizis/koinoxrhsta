@@ -1,5 +1,7 @@
 package com.angelos.koinoxrhsta.def.infrastructure;
 
+import com.angelos.koinoxrhsta.impl.exception.DataException;
+
 public abstract class Operation {
     
     /**
@@ -8,7 +10,8 @@ public abstract class Operation {
      * that are supposed to execute some kind of work.
      * 
      * @throws RuntimeException
+     * @throws DataException 
      */
-    public abstract void execute() throws RuntimeException;
+    public abstract void execute() throws RuntimeException, DataException;
 
 }

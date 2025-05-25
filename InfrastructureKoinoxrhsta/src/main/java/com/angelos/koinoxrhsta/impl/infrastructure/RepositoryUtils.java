@@ -1,15 +1,15 @@
 package com.angelos.koinoxrhsta.impl.infrastructure;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.angelos.koinoxrhsta.def.infrastructure.Key;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
-
-import java.util.List;
-import java.util.ArrayList;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
 
 @Service
 public class RepositoryUtils {
@@ -34,8 +34,8 @@ public class RepositoryUtils {
 
         try {
             return (JpaRepository<T, K>) repositories.getRepositoryFor(clazz)
-                    .orElseThrow(() -> new RepositoryException("Can't find repository for type " + clazz));
-        } catch (RepositoryException e) {
+                    .orElseThrow(() -> new DataException("Can't find repository for type " + clazz));
+        } catch (DataException e) {
             throw new RuntimeException(e);
         }
     }

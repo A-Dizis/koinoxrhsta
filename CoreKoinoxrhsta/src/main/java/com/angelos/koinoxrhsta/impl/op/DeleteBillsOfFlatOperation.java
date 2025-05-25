@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.def.infrastructure.Operation;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
-import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
+import com.angelos.koinoxrhsta.impl.exception.NullArgumentException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.Flat;
@@ -33,8 +34,9 @@ public class DeleteBillsOfFlatOperation  extends Operation {
         this.gpf = gpf;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void execute() throws RuntimeException {
+    public void execute() throws RuntimeException, DataException {
         query.setFlatKey(flat.getKey());
         query.execute();
         bills = query.getResultList();
@@ -42,12 +44,21 @@ public class DeleteBillsOfFlatOperation  extends Operation {
         GenericPersister<Bill, BillKey> gpBill;
         try {
             gpBill = gpf.create(Bill.class);
-        } catch (RepositoryException e) {
+        } catch (DataException e) {
             throw new RuntimeException(e.getMessage());
         }
 
+        if(bills == null) {
+            return;
+        }
+
         for (Bill bill : bills) {
-            gpBill.delete(bill);
+            try {
+                gpBill.delete(bill);
+            } catch (NullArgumentException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 }

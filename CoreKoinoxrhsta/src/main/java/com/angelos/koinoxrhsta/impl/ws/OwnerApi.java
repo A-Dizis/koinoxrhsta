@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.dto.OwnerDTO;
 import com.angelos.koinoxrhsta.impl.dto.mappers.OwnerMapper;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
-import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
+import com.angelos.koinoxrhsta.impl.exception.NullArgumentException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
@@ -28,7 +29,7 @@ public class OwnerApi {
     GenericPersisterFactory gpf;
     GenericPersister<Owner, OwnerKey> gpOwner;
 
-    public OwnerApi(GenericPersisterFactory gpf, OwnerMapper mapper) throws RepositoryException {
+    public OwnerApi(GenericPersisterFactory gpf, OwnerMapper mapper) throws DataException {
         this.gpf = gpf;
         this.mapper = mapper;
 
@@ -46,11 +47,15 @@ public class OwnerApi {
     }
 
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeOwner(@RequestBody(required = true) OwnerDTO ownerDTO) {
+    public ResponseEntity<String> removeOwner(@RequestBody(required = true) OwnerDTO ownerDTO) throws DataException {
         Owner owner = mapper.mapFromDto(ownerDTO);
-        gpOwner.read(owner);
-        gpOwner.delete(owner);
-
+        try {
+            gpOwner.read(owner);
+            gpOwner.delete(owner);
+        } catch (NullArgumentException e) {
+            e.printStackTrace();
+        }
+        
         return ResponseEntity.ok().body("Owner deleted");
     }
 }

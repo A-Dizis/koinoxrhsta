@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.dto.BuildingDTO;
 import com.angelos.koinoxrhsta.impl.exception.MapperException;
-import com.angelos.koinoxrhsta.impl.exception.RepositoryException;
+import com.angelos.koinoxrhsta.impl.exception.NullArgumentException;
+import com.angelos.koinoxrhsta.impl.exception.DataException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericMapper;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericMapperFactory;
-import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
@@ -31,7 +32,7 @@ public class BuildingApi {
     GenericPersisterFactory gpFactory;
     GenericPersister<Building, BuildingKey> gpBuilding;
     
-    public BuildingApi(GenericPersisterFactory gpFactory, GenericMapperFactory gmFactory) throws RepositoryException, MapperException {
+    public BuildingApi(GenericPersisterFactory gpFactory, GenericMapperFactory gmFactory) throws DataException, MapperException {
         this.gmFactory = gmFactory;
         this.gpFactory = gpFactory;
 
@@ -40,7 +41,7 @@ public class BuildingApi {
     }
 
     @RequestMapping(path = "/findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<BuildingDTO>> allBuilding() throws RepositoryException, MapperException {
+    public ResponseEntity<List<BuildingDTO>> allBuilding() throws DataException, MapperException {
         List<Building> buildings = gpBuilding.findAll();
         
         List<BuildingDTO> buildingDTOs = buildings.stream().map(q -> mapper.mapToDto(q)).collect(Collectors.toList());
@@ -49,16 +50,20 @@ public class BuildingApi {
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BuildingDTO> addBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException, MapperException{
+    public ResponseEntity<BuildingDTO> addBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws DataException, MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
-        gpBuilding.save(building);
+        try {
+            gpBuilding.save(building);
+        } catch (NullArgumentException e) {
+            e.printStackTrace();
+        }
         buildingDTO = mapper.mapToDto(building); 
 
         return ResponseEntity.ok().body(buildingDTO);
     }
 
     @RequestMapping(path = "/update", method = RequestMethod.PUT , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BuildingDTO> alterBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws RepositoryException, MapperException{
+    public ResponseEntity<BuildingDTO> alterBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws DataException, MapperException{
         Building building = mapper.mapFromDto(buildingDTO);
         try {
             gpBuilding.update(building);
@@ -72,10 +77,14 @@ public class BuildingApi {
     }
 
     @RequestMapping(path = "/remove", method = RequestMethod.DELETE , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws MapperException{
+    public ResponseEntity<String> removeBuilding(@RequestBody(required = true) BuildingDTO buildingDTO) throws MapperException, DataException{
         Building building = mapper.mapFromDto(buildingDTO);
-        building = gpBuilding.read(building);
-        gpBuilding.delete(building);
+        try {
+            building = gpBuilding.read(building);
+            gpBuilding.delete(building);
+        } catch (NullArgumentException e) {
+            e.printStackTrace();
+        }
 
         return ResponseEntity.ok().body("Building deleted");
     }
