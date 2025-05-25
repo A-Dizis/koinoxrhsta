@@ -1,7 +1,5 @@
 package com.angelos.koinoxrhsta.web;
 
-import org.springframework.stereotype.Component;
-
 import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.exception.DataException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
@@ -13,10 +11,11 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
 
-@Component
-@Route("flats") // localhost:8080/flats
+@UIScope
+@SpringComponent
 public class FlatsLayout extends VerticalLayout {
 
     Flat selected = null;

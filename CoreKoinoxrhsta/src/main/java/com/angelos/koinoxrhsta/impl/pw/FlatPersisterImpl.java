@@ -24,7 +24,7 @@ import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
 @SuppressWarnings("unused")
-public class FlatPwImpl extends GenericPersisterImpl<Flat, FlatKey> {
+public class FlatPersisterImpl extends GenericPersisterImpl<Flat, FlatKey> {
 
     @Override
     public void delete(Flat flat) throws DataException {

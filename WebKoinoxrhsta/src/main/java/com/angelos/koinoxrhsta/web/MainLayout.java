@@ -1,13 +1,14 @@
 package com.angelos.koinoxrhsta.web;
 
-import org.springframework.stereotype.Component;
-
 import com.vaadin.flow.component.login.AbstractLogin.LoginEvent;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 
-@Component
+@UIScope
+@PreserveOnRefresh
 @Route("")
 public class MainLayout extends HorizontalLayout {
 
