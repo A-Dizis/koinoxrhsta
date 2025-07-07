@@ -2,7 +2,7 @@ package com.angelos.koinoxrhsta.impl.query;
 
 import org.springframework.stereotype.Service;
 
-import com.angelos.koinoxrhsta.def.infrastructure.AbstractQuery;
+import com.angelos.koinoxrhsta.impl.infrastructure.AbstractQuery;
 import com.angelos.koinoxrhsta.impl.po.Bill;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 

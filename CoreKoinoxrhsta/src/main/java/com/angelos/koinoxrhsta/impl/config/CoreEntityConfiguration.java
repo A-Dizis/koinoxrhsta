@@ -8,6 +8,7 @@ import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.FlatSpec;
 import com.angelos.koinoxrhsta.impl.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.Owner;
+import com.angelos.koinoxrhsta.impl.po.Page;
 import com.angelos.koinoxrhsta.impl.po.Parking;
 import com.angelos.koinoxrhsta.impl.po.Warehouse;
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
@@ -16,6 +17,7 @@ import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
 import com.angelos.koinoxrhsta.impl.po.keys.IssuerKey;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
+import com.angelos.koinoxrhsta.impl.po.keys.PageKey;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 
@@ -32,6 +34,7 @@ public class CoreEntityConfiguration extends EntityConfiguration {
         addEntity(Owner.class, OwnerKey.class);
         addEntity(Parking.class, ParkingKey.class);
         addEntity(Warehouse.class, WarehouseKey.class);
+        addEntity(Page.class, PageKey.class);
     }
 
 }

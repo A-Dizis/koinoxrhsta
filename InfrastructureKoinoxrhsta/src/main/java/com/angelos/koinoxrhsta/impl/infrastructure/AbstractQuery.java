@@ -1,10 +1,11 @@
-package com.angelos.koinoxrhsta.def.infrastructure;
+package com.angelos.koinoxrhsta.impl.infrastructure;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.angelos.koinoxrhsta.def.infrastructure.Operation;
 import com.angelos.koinoxrhsta.impl.exception.AbstractQueryException;
 
 import jakarta.persistence.EntityManager;

@@ -22,9 +22,11 @@ import lombok.Setter;
  * T is entity Class and K is the Class of the key of the entity.
  * <p>
  * <p>
- * <b>Extends of this class, should not implement any component scanning
+ * <b>Extenders of this class, should not implement any component scanning
  * annotation of the spring framework, they should be self contained and
- * be declared in a GenericPersister configuration class.</b>
+ * be declared in a GenericPersister configuration class. The reason behind
+ * it that framework injection is unwanted here (we use our injection) 
+ * because it will lead to cyclic-dependency on repositories. </b>
  */
 @Service
 public class GenericPersisterImpl<T extends Key<K>, K> implements GenericPersister<T,K> {
