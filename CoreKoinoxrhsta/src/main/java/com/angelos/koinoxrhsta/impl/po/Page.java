@@ -30,7 +30,7 @@ public class Page extends KeyImpl<PageKey> implements Key<PageKey> {
     * name
     */
     @Column(name = "NAME")
-    private Long name;
+    private String name;
 
     /**
      * page classpath

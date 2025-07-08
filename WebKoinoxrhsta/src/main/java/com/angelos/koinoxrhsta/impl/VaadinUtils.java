@@ -6,7 +6,7 @@ import com.vaadin.flow.component.grid.Grid;
 
 @Service
 public class VaadinUtils {
-    
+
     public static void removeColumnsById(Grid<?> grid, String ... columnIds) {
           for (String columnId : columnIds) {
             try {
