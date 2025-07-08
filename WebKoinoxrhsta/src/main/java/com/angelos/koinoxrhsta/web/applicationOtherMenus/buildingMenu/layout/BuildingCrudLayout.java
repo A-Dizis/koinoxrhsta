@@ -26,6 +26,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -35,7 +36,9 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @SpringComponent
 public class BuildingCrudLayout extends Composite<Component> {
 
-    VerticalLayout pageLayout;
+    VerticalLayout pageLayout = null;
+
+    VerticalLayout drawArea = null;
 
     GenericPersisterFactory gpf;
     GenericPersister<Building, BuildingKey> gpBuilding;
@@ -43,10 +46,8 @@ public class BuildingCrudLayout extends Composite<Component> {
 
     FindFlatsOfBuildingQuery query;
     
-    Optional<Building> selected;
+    Optional<Building> selectedBuilding;
     Optional<Flat> selectedFlat;
-
-
 
     BuildingCrudLayout (GenericPersisterFactory gpf, FindFlatsOfBuildingQuery query) throws DataException {
         this.gpf = gpf;
@@ -59,24 +60,25 @@ public class BuildingCrudLayout extends Composite<Component> {
     protected Component initContent() {
         pageLayout = new VerticalLayout();
 
+        drawArea = new VerticalLayout();
+
         GridCrud<Building> buildingSearchLayout = new GridCrud<>(Building.class);
-        buildingSearchLayout.setFindAllOperation(findAllBuildingsOperationListener());
-        buildingSearchLayout.setUpdateOperation(updateOperationListener());
+        buildingSearchLayout.setFindAllOperation(findAllBuildingsListener());
+        buildingSearchLayout.setUpdateOperation(updateBuildingListener());
+        buildingSearchLayout.setDeleteOperation(deleteBuildingListener());
+        buildingSearchLayout.setDeletedMessage(null);
         buildingSearchLayout.setAddOperationVisible(false);
-        buildingSearchLayout.setDeleteOperationVisible(false);
         configureBuildingGrid(buildingSearchLayout.getGrid());
 
-        VerticalLayout drawArea = new VerticalLayout();
-
         HorizontalLayout selectedBuildingActionButtonsPanel = new HorizontalLayout();
-        selectedBuildingActionButtonsPanel.add(showFlatsButton(drawArea));
+        selectedBuildingActionButtonsPanel.add(showFlatsButton());
 
         pageLayout.add(new H2("Building Managment"), buildingSearchLayout, selectedBuildingActionButtonsPanel, drawArea);
 
         return pageLayout;
     }
    
-    FindAllCrudOperationListener<Building> findAllBuildingsOperationListener() {
+    FindAllCrudOperationListener<Building> findAllBuildingsListener() {
         return new FindAllCrudOperationListener<Building>() {
 
             @Override
@@ -87,7 +89,7 @@ public class BuildingCrudLayout extends Composite<Component> {
         };
     }
 
-    UpdateOperationListener<Building> updateOperationListener() {
+    UpdateOperationListener<Building> updateBuildingListener() {
         return new UpdateOperationListener<Building>() {
 
             @Override
@@ -102,7 +104,37 @@ public class BuildingCrudLayout extends Composite<Component> {
         };
     }
 
-    AddOperationListener<Building> addOperationListener() {
+    @SuppressWarnings("unchecked")
+    DeleteOperationListener<Building> deleteBuildingListener() {
+        return new DeleteOperationListener<Building>() {
+
+            @Override
+            public void perform(Building domainObject) {
+                resetDrawArea();
+                setDrawAreaAlignment("center");
+
+                query.setBuilding(selectedBuilding.get());
+                query.execute();
+                List<Flat> resultList = query.getResultList();
+                H3 message = null;
+                if(!CollectionUtils.isEmpty(resultList)) {
+                    message = new H3("Operation cannot be completed. Delete Flats of the building first.");
+                    drawArea.add(message);
+                    return;
+                }
+                try {
+                    gpBuilding.delete(domainObject);
+                } catch (DataException e) {
+                    throw new RuntimeException(e);
+                }
+                message = new H3("Operation completed successfully. Building: " + domainObject.getBuildingId() + " deleted.");
+                message.getStyle().set("color", "green");
+                drawArea.add(message);
+            }
+        };
+    }
+
+    AddOperationListener<Building> addBuildingListener() {
 
         return new AddOperationListener<Building>() {
 
@@ -122,32 +154,32 @@ public class BuildingCrudLayout extends Composite<Component> {
         VaadinUtils.removeColumnsById(grid, "lastVersion", "key");
         grid.setSelectionMode(SelectionMode.SINGLE);
         grid.addSelectionListener(e -> {
-            selected = e.getFirstSelectedItem();
+            selectedBuilding = e.getFirstSelectedItem();
         });
     }
 
     @SuppressWarnings("unchecked")
-    Button showFlatsButton(VerticalLayout drawArea) {
+    Button showFlatsButton() {
+
         Button button = new Button("Show flats");
         button.addClickListener(e -> {
-            if(selected.isPresent()){
-                query.setBuilding(selected.get());
+            resetDrawArea();
+
+            if(selectedBuilding.isPresent()){
+                query.setBuilding(selectedBuilding.get());
                 query.execute();
                 List<Flat> resultList = query.getResultList();
                 if(!CollectionUtils.isEmpty(resultList)) {
                     GridCrud<Flat> flatCrud = new GridCrud<>(Flat.class);
-                    flatCrud.setFindAllOperation(findAllFlatsOperationListener(selected));
+                    flatCrud.setFindAllOperation(findAllFlatsListener(selectedBuilding));
                     flatCrud.setAddOperationVisible(false);
                     flatCrud.setUpdateOperationVisible(false);
                     flatCrud.setDeleteOperation(deleteFlatOperationListener());
                     configureFlatGrid(flatCrud.getGrid());
                     
-
-
-                    drawArea.add(new H2("Flats of Building with ID: " + selected.get().getBuildingId()), flatCrud);
+                    drawArea.add(new H2("Flats of Building with ID: " + selectedBuilding.get().getBuildingId()), flatCrud);
                     return;
                 }
-                drawArea.removeAll();
             }
         });
         return button;
@@ -160,9 +192,10 @@ public class BuildingCrudLayout extends Composite<Component> {
 
     }
 
-    FindAllCrudOperationListener<Flat> findAllFlatsOperationListener(Optional<Building> selected) {
+    FindAllCrudOperationListener<Flat> findAllFlatsListener(Optional<Building> selected) {
         return new FindAllCrudOperationListener<Flat>() {
 
+            @SuppressWarnings("unchecked")
             @Override
             public Collection<Flat> findAll() {
                 query.setBuilding(selected.get());
@@ -174,17 +207,20 @@ public class BuildingCrudLayout extends Composite<Component> {
 
     DeleteOperationListener<Flat> deleteFlatOperationListener() {
         return new DeleteOperationListener<Flat>() {
-
             @Override
             public void perform(Flat domainObject) {
-               try {
-
-                    gpFlat.delete(domainObject);
-               } catch (DataException e) {
-                    throw new RuntimeException(e);
-               }
-            }
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'perform'");
+            }           
         };
     }
 
+    void resetDrawArea() {
+        drawArea.removeAll();
+        drawArea.getStyle().set("align-items", "left");
+    }
+
+    void setDrawAreaAlignment(String alignment) {
+        drawArea.getStyle().set("align-items", alignment);
+    }
 }

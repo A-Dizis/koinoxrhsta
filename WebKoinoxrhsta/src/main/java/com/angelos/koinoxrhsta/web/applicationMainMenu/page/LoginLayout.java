@@ -18,6 +18,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @Route("")
 public class LoginLayout extends Composite<Component> {
 
+    public static boolean initialized;
+
     FlatsLayout flatsLayout;
 
     @Override
@@ -40,9 +42,12 @@ public class LoginLayout extends Composite<Component> {
 
         if(username.equals("admin") && password.equals("pass")) {
 
-            RouteConfiguration.forSessionScope().setRoute("startPage", MainPageLayout.class);
-            UI.getCurrent().navigate(MainPageLayout.class);
-            
+            if(!initialized) {
+                RouteConfiguration.forSessionScope().setRoute("/MainMenu", MainPageLayout.class);
+            }
+
+            UI.getCurrent().navigate("/MainMenu");
+            initialized = true;
         }
         event.getSource().setEnabled(true);
 

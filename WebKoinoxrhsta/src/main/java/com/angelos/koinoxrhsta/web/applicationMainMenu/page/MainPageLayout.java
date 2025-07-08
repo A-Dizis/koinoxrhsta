@@ -20,6 +20,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @SpringComponent
 public class MainPageLayout extends Composite<Component> {
 
+    public static boolean initialized = false;
+
     private List<Page> allPages;
 
     MainPageLayout(GenericPersisterFactory gpf) throws DataException {
@@ -31,13 +33,18 @@ public class MainPageLayout extends Composite<Component> {
 
         HorizontalLayout navigationLayout = new HorizontalLayout();
         for (Page page : allPages) {
-            navigationLayout.add(createPageButton(page));
-            addPageToRouteForTheSession(page);
-        }
 
+            navigationLayout.add(createPageButton(page));
+            if(!initialized) {
+                addPageToRouteForTheSession(page);
+
+            }
+        }
+        initialized = true;
+  
         return navigationLayout;
     }
-    
+
     Button createPageButton(Page page) {
         Button bt = new Button(page.getName());
         bt.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
