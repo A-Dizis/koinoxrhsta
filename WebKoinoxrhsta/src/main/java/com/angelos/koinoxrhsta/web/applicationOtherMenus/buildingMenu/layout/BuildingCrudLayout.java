@@ -1,5 +1,6 @@
 package com.angelos.koinoxrhsta.web.applicationOtherMenus.buildingMenu.layout;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
 import com.angelos.koinoxrhsta.impl.VaadinUtils;
 import com.angelos.koinoxrhsta.impl.exception.DataException;
 import com.angelos.koinoxrhsta.impl.infrastructure.GenericPersisterFactory;
+import com.angelos.koinoxrhsta.impl.op.DeleteFlatOperation;
 import com.angelos.koinoxrhsta.impl.po.Building;
 import com.angelos.koinoxrhsta.impl.po.Flat;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
@@ -27,6 +29,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -44,16 +47,19 @@ public class BuildingCrudLayout extends Composite<Component> {
     GenericPersister<Building, BuildingKey> gpBuilding;
     GenericPersister<Flat, FlatKey> gpFlat;
 
+    DeleteFlatOperation deleteOp;
+
     FindFlatsOfBuildingQuery query;
     
     Optional<Building> selectedBuilding;
     Optional<Flat> selectedFlat;
 
-    BuildingCrudLayout (GenericPersisterFactory gpf, FindFlatsOfBuildingQuery query) throws DataException {
+    BuildingCrudLayout (GenericPersisterFactory gpf, DeleteFlatOperation deleteOp, FindFlatsOfBuildingQuery query) throws DataException {
         this.gpf = gpf;
         gpBuilding = gpf.create(Building.class);
         gpFlat = gpf.create(Flat.class);
         this.query = query;
+        this.deleteOp = deleteOp;
     }
     
     @Override
@@ -111,7 +117,7 @@ public class BuildingCrudLayout extends Composite<Component> {
             @Override
             public void perform(Building domainObject) {
                 resetDrawArea();
-                setDrawAreaAlignment("center");
+                setDrawAreaAlignment(JustifyContentMode.CENTER);
 
                 query.setBuilding(selectedBuilding.get());
                 query.execute();
@@ -119,6 +125,7 @@ public class BuildingCrudLayout extends Composite<Component> {
                 H3 message = null;
                 if(!CollectionUtils.isEmpty(resultList)) {
                     message = new H3("Operation cannot be completed. Delete Flats of the building first.");
+                    message.getStyle().set("color", "red");
                     drawArea.add(message);
                     return;
                 }
@@ -174,11 +181,12 @@ public class BuildingCrudLayout extends Composite<Component> {
                     flatCrud.setFindAllOperation(findAllFlatsListener(selectedBuilding));
                     flatCrud.setAddOperationVisible(false);
                     flatCrud.setUpdateOperationVisible(false);
-                    flatCrud.setDeleteOperation(deleteFlatOperationListener());
+                    flatCrud.setDeleteOperation(deleteFlatListener());
+                    flatCrud.setDeletedMessage("Flat successfully deleted.");
                     configureFlatGrid(flatCrud.getGrid());
                     
                     drawArea.add(new H2("Flats of Building with ID: " + selectedBuilding.get().getBuildingId()), flatCrud);
-                    return;
+                    setDrawAreaAlignment(JustifyContentMode.CENTER);
                 }
             }
         });
@@ -200,27 +208,31 @@ public class BuildingCrudLayout extends Composite<Component> {
             public Collection<Flat> findAll() {
                 query.setBuilding(selected.get());
                 query.execute();
-                return query.getResultList();
+                return CollectionUtils.isEmpty(query.getResultList()) ? new ArrayList<>() : query.getResultList();
             }
         };
     }
 
-    DeleteOperationListener<Flat> deleteFlatOperationListener() {
+    DeleteOperationListener<Flat> deleteFlatListener() {
         return new DeleteOperationListener<Flat>() {
             @Override
             public void perform(Flat domainObject) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'perform'");
+                deleteOp.setFlat(domainObject);
+                try {
+                    deleteOp.execute();
+                } catch (DataException e) {
+                    throw new RuntimeException(e);
+                }
             }           
         };
     }
 
     void resetDrawArea() {
         drawArea.removeAll();
-        drawArea.getStyle().set("align-items", "left");
+        drawArea.setJustifyContentMode(JustifyContentMode.START);
     }
 
-    void setDrawAreaAlignment(String alignment) {
-        drawArea.getStyle().set("align-items", alignment);
+    void setDrawAreaAlignment(JustifyContentMode mode) {
+        drawArea.setJustifyContentMode(mode);
     }
 }
