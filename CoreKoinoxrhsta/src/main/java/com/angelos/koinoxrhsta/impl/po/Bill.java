@@ -98,7 +98,7 @@ public class Bill extends KeyImpl<BillKey> implements Key<BillKey>{
 	/**
 	 * 
 	 */
-    @Column(name = "IS_PAID")
+    @Column(name = "IS_PAID", columnDefinition = "SMALLINT")
     private boolean isPaid;
 
 	/**
