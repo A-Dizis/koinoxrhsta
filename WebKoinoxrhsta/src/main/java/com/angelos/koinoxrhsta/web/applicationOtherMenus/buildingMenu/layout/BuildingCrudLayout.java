@@ -29,6 +29,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -45,6 +46,8 @@ public class BuildingCrudLayout extends Composite<Component> {
     GenericPersisterFactory gpf;
     GenericPersister<Building, BuildingKey> gpBuilding;
     GenericPersister<Flat, FlatKey> gpFlat;
+
+    DeleteFlatOperation deleteOp;
 
     FindFlatsOfBuildingQuery query;
     
@@ -116,7 +119,7 @@ public class BuildingCrudLayout extends Composite<Component> {
             @Override
             public void perform(Building domainObject) {
                 resetDrawArea();
-                setDrawAreaAlignment("center");
+                setDrawAreaAlignment(JustifyContentMode.CENTER);
 
                 query.setBuilding(domainObject);
                 query.execute();
@@ -124,6 +127,7 @@ public class BuildingCrudLayout extends Composite<Component> {
                 H3 message = null;
                 if(!CollectionUtils.isEmpty(resultList)) {
                     message = new H3("Operation cannot be completed. Delete Flats of the building first.");
+                    message.getStyle().set("color", "red");
                     drawArea.add(message);
                     return;
                 }
@@ -179,11 +183,12 @@ public class BuildingCrudLayout extends Composite<Component> {
                     flatCrud.setFindAllOperation(findAllFlatsListener(selectedBuilding));
                     flatCrud.setAddOperationVisible(false);
                     flatCrud.setUpdateOperationVisible(false);
-                    flatCrud.setDeleteOperation(deleteFlatOperationListener());
+                    flatCrud.setDeleteOperation(deleteFlatListener());
+                    flatCrud.setDeletedMessage("Flat successfully deleted.");
                     configureFlatGrid(flatCrud.getGrid());
                     
                     drawArea.add(new H2("Flats of Building with ID: " + selectedBuilding.get().getBuildingId()), flatCrud);
-                    return;
+                    setDrawAreaAlignment(JustifyContentMode.CENTER);
                 }
             }
         });
@@ -236,10 +241,10 @@ public class BuildingCrudLayout extends Composite<Component> {
 
     void resetDrawArea() {
         drawArea.removeAll();
-        drawArea.getStyle().set("align-items", "left");
+        drawArea.setJustifyContentMode(JustifyContentMode.START);
     }
 
-    void setDrawAreaAlignment(String alignment) {
-        drawArea.getStyle().set("align-items", alignment);
+    void setDrawAreaAlignment(JustifyContentMode mode) {
+        drawArea.setJustifyContentMode(mode);
     }
 }
