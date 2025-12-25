@@ -105,6 +105,9 @@ public abstract class AbstractQuery extends Operation {
         }
     } 
 
+    /**
+     * Returns a list of the objects or null if no items found.
+     */
     @SuppressWarnings("rawtypes")
     public final List getResultList() {
         return resultList;

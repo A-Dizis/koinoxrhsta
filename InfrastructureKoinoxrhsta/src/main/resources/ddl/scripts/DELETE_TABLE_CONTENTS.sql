@@ -7,3 +7,5 @@ delete from koinoxrhsta.tbparking;
 delete from koinoxrhsta.tbwarehouse;
 delete from koinoxrhsta.tbflat;
 delete from koinoxrhsta.tbbuilding;
+delete from koinoxrhsta.tbuser;
+delete from koinoxrhsta.tbpage;

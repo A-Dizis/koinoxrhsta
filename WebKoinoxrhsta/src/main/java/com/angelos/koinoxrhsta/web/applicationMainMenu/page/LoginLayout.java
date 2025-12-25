@@ -15,7 +15,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 @UIScope
 @PreserveOnRefresh
-@Route("")
+@Route("/login")
 public class LoginLayout extends Composite<Component> {
 
     public static boolean initialized;

@@ -81,6 +81,13 @@ public class TestRandomInfoUtility {
     }
 
     /**
+     * @return random last name
+     */
+    public static String getUsername() {
+        return firstNames.get(random.nextInt(firstNames.size())) + lastNames.get(random.nextInt(lastNames.size())) + String.valueOf(random.nextInt(999));
+    }
+
+    /**
      * @return random street name
      */
     public static String getStreetName() {

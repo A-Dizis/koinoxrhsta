@@ -49,7 +49,6 @@ public interface GenericPersister<T extends Key<K>, K> {
      * @param entity
      * @return
      * @throws NullArgumentException 
-     * @throws RepositoryException 
      */
     public T update(T entity) throws DataException, NullArgumentException;
 
@@ -67,7 +66,6 @@ public interface GenericPersister<T extends Key<K>, K> {
     /**
      * 
      * @param <T>    Entity
-     * @param <K>    Entity Key
      * @param entity
      * @return
      * @throws DataException 
@@ -79,10 +77,9 @@ public interface GenericPersister<T extends Key<K>, K> {
      * 
      * @param <T>    Entity
      * @param <K>    Entity Key
-     * @param entity
-     * @return
-     * @throws DataException 
-     * @throws NullArgumentException 
+     * @return Ô
+     * @throws DataException
+     * @throws NullArgumentException
      */
     public T read(K entityKey) throws DataException, NullArgumentException;
 

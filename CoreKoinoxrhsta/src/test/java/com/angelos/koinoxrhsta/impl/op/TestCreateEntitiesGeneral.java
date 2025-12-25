@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
+import com.angelos.koinoxrhsta.impl.enums.PermissionGroup;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.enums.Side;
 import com.angelos.koinoxrhsta.impl.exception.DataException;
@@ -23,6 +24,7 @@ import com.angelos.koinoxrhsta.impl.po.FlatSpec;
 import com.angelos.koinoxrhsta.impl.po.Issuer;
 import com.angelos.koinoxrhsta.impl.po.Owner;
 import com.angelos.koinoxrhsta.impl.po.Parking;
+import com.angelos.koinoxrhsta.impl.po.User;
 import com.angelos.koinoxrhsta.impl.po.Warehouse;
 import com.angelos.koinoxrhsta.impl.po.keys.BillKey;
 import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
@@ -31,8 +33,10 @@ import com.angelos.koinoxrhsta.impl.po.keys.FlatSpecKey;
 import com.angelos.koinoxrhsta.impl.po.keys.IssuerKey;
 import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 import com.angelos.koinoxrhsta.impl.po.keys.ParkingKey;
+import com.angelos.koinoxrhsta.impl.po.keys.UserKey;
 import com.angelos.koinoxrhsta.impl.po.keys.WarehouseKey;
 import com.angelos.koinoxrhsta.impl.utils.TestRandomInfoUtility;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -48,6 +52,7 @@ public class TestCreateEntitiesGeneral {
 	private GenericPersister<Issuer, IssuerKey> gpIssuer;
 	private GenericPersister<FlatSpec, FlatSpecKey> gpFlatSpec;
 	private GenericPersister<Warehouse, WarehouseKey> gpWarehouse;
+	private GenericPersister<User, UserKey> gpUser;
 
 	@Autowired
 	public void injectDependencies(GenericPersisterFactory gpf) throws DataException {
@@ -61,6 +66,7 @@ public class TestCreateEntitiesGeneral {
 		gpIssuer = gpf.create(Issuer.class); 
 		gpFlatSpec = gpf.create(FlatSpec.class); 
 		gpWarehouse = gpf.create(Warehouse.class); 
+		gpUser = gpf.create(User.class);
 	};
 
 	@Test
@@ -171,5 +177,17 @@ public class TestCreateEntitiesGeneral {
 				+ assertThat(building).usingRecursiveComparison().isEqualTo(expectedBuilding));
 		System.out.println(
 				"ASSERTING ----------------" + assertThat(flat).usingRecursiveComparison().isEqualTo(expectedFlat));
+
+		User user = new User();
+		user.setUsername(TestRandomInfoUtility.getUsername());
+		user.setPassword(String.valueOf("password".hashCode()));
+		user.setPermissionGroup(PermissionGroup.USER_TYPE_1);
+		user.setIsActive(true);
+		User savedUser = gpUser.save(user);
+		assertThat(savedUser.getPassword()).isEqualTo(user.getPassword());
+		assertThat(savedUser.getPermissionGroup()).isEqualTo(user.getPermissionGroup());
+		assertThat(savedUser.getKey()).isNotNull();
+		assertThat(savedUser.getUserId()).isNotNull();
+		assertThat(savedUser.getLastVersion()).isNotNull();
 	}
 }
