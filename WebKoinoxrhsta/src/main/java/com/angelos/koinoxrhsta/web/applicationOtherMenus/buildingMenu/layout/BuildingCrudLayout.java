@@ -51,15 +51,17 @@ public class BuildingCrudLayout extends Composite<Component> {
 
     FindFlatsOfBuildingQuery query;
     
+    DeleteFlatOperation deleteFlatOp;
+
     Optional<Building> selectedBuilding;
     Optional<Flat> selectedFlat;
 
-    BuildingCrudLayout (GenericPersisterFactory gpf, DeleteFlatOperation deleteOp, FindFlatsOfBuildingQuery query) throws DataException {
+    BuildingCrudLayout (GenericPersisterFactory gpf, FindFlatsOfBuildingQuery query, DeleteFlatOperation deleteFlatOp) throws DataException {
         this.gpf = gpf;
         gpBuilding = gpf.create(Building.class);
         gpFlat = gpf.create(Flat.class);
         this.query = query;
-        this.deleteOp = deleteOp;
+        this.deleteFlatOp = deleteFlatOp;
     }
     
     @Override
@@ -119,7 +121,7 @@ public class BuildingCrudLayout extends Composite<Component> {
                 resetDrawArea();
                 setDrawAreaAlignment(JustifyContentMode.CENTER);
 
-                query.setBuilding(selectedBuilding.get());
+                query.setBuilding(domainObject);
                 query.execute();
                 List<Flat> resultList = query.getResultList();
                 H3 message = null;
@@ -196,9 +198,11 @@ public class BuildingCrudLayout extends Composite<Component> {
     void configureFlatGrid(Grid<Flat> grid) {
         VaadinUtils.removeColumnsById(grid,  "buildingId", "flatSpec", "owner", "key", "parking", "warehouse", "lastVersion");
         grid.setSelectionMode(SelectionMode.SINGLE);
-        grid.addSelectionListener(o -> {selectedFlat = o.getFirstSelectedItem();});
-
+        grid.addSelectionListener(e -> {
+            selectedFlat = e.getFirstSelectedItem();
+        });
     }
+    
 
     FindAllCrudOperationListener<Flat> findAllFlatsListener(Optional<Building> selected) {
         return new FindAllCrudOperationListener<Flat>() {
@@ -208,20 +212,28 @@ public class BuildingCrudLayout extends Composite<Component> {
             public Collection<Flat> findAll() {
                 query.setBuilding(selected.get());
                 query.execute();
-                return CollectionUtils.isEmpty(query.getResultList()) ? new ArrayList<>() : query.getResultList();
+                
+                List<Flat> result = query.getResultList();
+                if(result != null && !result.isEmpty()) {
+                    return result;
+                }
+                
+                return new ArrayList<>();
             }
         };
     }
 
-    DeleteOperationListener<Flat> deleteFlatListener() {
+    DeleteOperationListener<Flat> deleteFlatOperationListener() {
+
         return new DeleteOperationListener<Flat>() {
+
             @Override
             public void perform(Flat domainObject) {
-                deleteOp.setFlat(domainObject);
                 try {
-                    deleteOp.execute();
+                deleteFlatOp.setFlat(domainObject);
+                deleteFlatOp.execute();
                 } catch (DataException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             }           
         };
