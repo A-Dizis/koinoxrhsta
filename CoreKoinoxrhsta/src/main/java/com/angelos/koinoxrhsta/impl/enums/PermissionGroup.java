@@ -2,9 +2,9 @@ package com.angelos.koinoxrhsta.impl.enums;
 
 public enum PermissionGroup {
     
-    ADMIN("Admin"),
+    ADMIN("ADMIN"),
 
-	USER_TYPE_1("User Type 1");
+	USER_TYPE_1("USER_TYPE_1");
 	
 	private PermissionGroup(String name) {};
 	

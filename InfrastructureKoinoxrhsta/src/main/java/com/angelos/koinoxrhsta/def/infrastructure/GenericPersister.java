@@ -2,6 +2,7 @@ package com.angelos.koinoxrhsta.def.infrastructure;
 
 import java.util.List;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -77,11 +78,17 @@ public interface GenericPersister<T extends Key<K>, K> {
      * 
      * @param <T>    Entity
      * @param <K>    Entity Key
-     * @return Ô
+     * @return T
      * @throws DataException
      * @throws NullArgumentException
      */
     public T read(K entityKey) throws DataException, NullArgumentException;
+
+    /**
+     * 
+     * @return
+     */
+    public List<T> findAll(Example<T> example);
 
     /**
      * 

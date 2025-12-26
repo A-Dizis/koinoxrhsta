@@ -180,7 +180,7 @@ public class TestCreateEntitiesGeneral {
 
 		User user = new User();
 		user.setUsername(TestRandomInfoUtility.getUsername());
-		user.setPassword(String.valueOf("password".hashCode()));
+		user.setPassword("$2a$12$yVuEDhVMUPfeFlU1JrRjrekdbBVvgPdCR8FnJvD5bnkqswfILcAmu"); //BcryptHash of password = "password"
 		user.setPermissionGroup(PermissionGroup.USER_TYPE_1);
 		user.setIsActive(true);
 		User savedUser = gpUser.save(user);

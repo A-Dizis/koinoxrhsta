@@ -3,6 +3,7 @@ package com.angelos.koinoxrhsta.impl.infrastructure;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -138,6 +139,14 @@ public class GenericPersisterImpl<T extends Key<K>, K> implements GenericPersist
         } else {
             throw new DataException("No entity found on read.");
         }
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<T> findAll(Example<T> example) {
+        return jpaRepository.findAll(example);
     }
 
     /**

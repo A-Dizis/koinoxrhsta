@@ -183,7 +183,7 @@ public class BuildingCrudLayout extends Composite<Component> {
                     flatCrud.setFindAllOperation(findAllFlatsListener(selectedBuilding));
                     flatCrud.setAddOperationVisible(false);
                     flatCrud.setUpdateOperationVisible(false);
-                    flatCrud.setDeleteOperation(deleteFlatListener());
+                    flatCrud.setDeleteOperation(deleteFlatOperationListener());
                     flatCrud.setDeletedMessage("Flat successfully deleted.");
                     configureFlatGrid(flatCrud.getGrid());
                     

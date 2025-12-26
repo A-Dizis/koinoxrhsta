@@ -12,12 +12,17 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @UIScope
 @SpringComponent
+@Route("")
+@RolesAllowed("USER_TYPE_1")
 public class MainPageLayout extends Composite<Component> {
 
     public static boolean initialized = false;

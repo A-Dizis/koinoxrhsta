@@ -8,8 +8,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @UIScope
 @SpringComponent
+@RolesAllowed("USER_TYPE_1")
 public class BuildingManagentPage extends Composite<Component> {
     
     BuildingCrudLayout buildingCrudLayout;
