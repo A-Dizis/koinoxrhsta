@@ -22,7 +22,7 @@ import jakarta.annotation.security.RolesAllowed;
 @UIScope
 @SpringComponent
 @Route("")
-@RolesAllowed("USER_TYPE_1")
+@RolesAllowed({"SUPER_USER","ADMIN"})
 public class MainPageLayout extends Composite<Component> {
 
     public static boolean initialized = false;
@@ -37,6 +37,7 @@ public class MainPageLayout extends Composite<Component> {
     protected Component initContent() {
 
         HorizontalLayout navigationLayout = new HorizontalLayout();
+        navigationLayout.getStyle().set("padding", "20px");
         for (Page page : allPages) {
 
             navigationLayout.add(createPageButton(page));

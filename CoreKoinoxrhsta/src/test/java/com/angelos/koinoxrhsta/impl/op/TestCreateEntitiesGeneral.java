@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.angelos.koinoxrhsta.def.infrastructure.GenericPersister;
-import com.angelos.koinoxrhsta.impl.enums.PermissionGroup;
+import com.angelos.koinoxrhsta.impl.enums.RoleGroup;
 import com.angelos.koinoxrhsta.impl.enums.Sex;
 import com.angelos.koinoxrhsta.impl.enums.Side;
 import com.angelos.koinoxrhsta.impl.exception.DataException;
@@ -181,7 +181,7 @@ public class TestCreateEntitiesGeneral {
 		User user = new User();
 		user.setUsername(TestRandomInfoUtility.getUsername());
 		user.setPassword("$2a$12$yVuEDhVMUPfeFlU1JrRjrekdbBVvgPdCR8FnJvD5bnkqswfILcAmu"); //BcryptHash of password = "password"
-		user.setPermissionGroup(PermissionGroup.USER_TYPE_1);
+		user.setPermissionGroup(RoleGroup.USER_TYPE_1);
 		user.setIsActive(true);
 		User savedUser = gpUser.save(user);
 		assertThat(savedUser.getPassword()).isEqualTo(user.getPassword());

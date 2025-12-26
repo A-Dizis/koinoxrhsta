@@ -12,7 +12,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @UIScope
 @SpringComponent
-@RolesAllowed("USER_TYPE_1")
+@RolesAllowed({"SUPER_USER","ADMIN"})
 public class BuildingManagentPage extends Composite<Component> {
     
     BuildingCrudLayout buildingCrudLayout;

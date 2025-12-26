@@ -1,7 +1,7 @@
 package com.angelos.koinoxrhsta.impl.po;
 
 import com.angelos.koinoxrhsta.def.infrastructure.Key;
-import com.angelos.koinoxrhsta.impl.enums.PermissionGroup;
+import com.angelos.koinoxrhsta.impl.enums.RoleGroup;
 import com.angelos.koinoxrhsta.impl.infrastructure.KeyImpl;
 import com.angelos.koinoxrhsta.impl.po.keys.UserKey;
 
@@ -52,7 +52,7 @@ public class User extends KeyImpl<UserKey> implements Key<UserKey> {
 	 */
 	@Column(name = "PERMISSION_GROUP")
 	@Enumerated(EnumType.ORDINAL)
-	private PermissionGroup permissionGroup;
+	private RoleGroup permissionGroup;
     
     /**
 	 * isActive

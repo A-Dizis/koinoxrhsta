@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.angelos.koinoxrhsta.impl.enums.PermissionGroup;
+import com.angelos.koinoxrhsta.impl.enums.RoleGroup;
 import com.angelos.koinoxrhsta.impl.op.MyUserDetailOp;
 import com.angelos.koinoxrhsta.web.applicationMainMenu.page.LoginLayout;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
@@ -41,7 +41,7 @@ public class MySecurityAppConfig extends VaadinWebSecurity {
                     authorize.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
                     authorize.requestMatchers("/login", "/error/**", "/logout", "/", "/home").permitAll();
                     // Restrict access to admin and user pages based on roles
-                    authorize.requestMatchers("/MainMenu/**").hasRole(PermissionGroup.USER_TYPE_1.name());
+                    authorize.requestMatchers("/MainMenu/**").hasRole(RoleGroup.USER_TYPE_1.name());
                 });
         http.csrf().disable();
         http.userDetailsService(myUserDetailOp);

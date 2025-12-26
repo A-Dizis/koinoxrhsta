@@ -32,7 +32,7 @@ public class LoginLayout extends VerticalLayout implements BeforeEnterListener {
         // This ensures the form submits a standard POST request to Spring Security
         login.setAction("login");
 
-        add(new H1("My App Name"), login);
+        add(new H1("Koinoxrhsta App"), login);
 
     }
 
