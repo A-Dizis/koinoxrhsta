@@ -22,7 +22,7 @@ import com.angelos.koinoxrhsta.impl.po.keys.FlatKey;
 
 @CrossOrigin(methods = {RequestMethod.POST, RequestMethod.GET,  RequestMethod.DELETE, RequestMethod.PUT})
 @RestController
-@RequestMapping("/flats")
+@RequestMapping("/api/v1/flats")
 public class FlatApi {
 
     FlatMapper mapper;
@@ -53,7 +53,6 @@ public class FlatApi {
         try {
             gpFlat.save(flat);
         } catch (NullArgumentException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         flatDTO = mapper.mapToDto(flat);

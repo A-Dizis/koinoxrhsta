@@ -22,7 +22,7 @@ import com.angelos.koinoxrhsta.impl.po.keys.OwnerKey;
 
 @CrossOrigin(methods = {RequestMethod.POST, RequestMethod.GET,  RequestMethod.DELETE, RequestMethod.PUT})
 @RestController
-@RequestMapping("/owners")
+@RequestMapping("/api/v1/owners")
 public class OwnerApi {
 
     OwnerMapper mapper;

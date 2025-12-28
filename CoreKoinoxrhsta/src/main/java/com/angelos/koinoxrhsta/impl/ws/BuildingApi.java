@@ -24,7 +24,7 @@ import com.angelos.koinoxrhsta.impl.po.keys.BuildingKey;
 
 @CrossOrigin(methods = {RequestMethod.POST, RequestMethod.GET,  RequestMethod.DELETE, RequestMethod.PUT})
 @RestController
-@RequestMapping("/buildings")
+@RequestMapping("/api/v1/buildings")
 public class BuildingApi {
 
     GenericMapperFactory gmFactory;
