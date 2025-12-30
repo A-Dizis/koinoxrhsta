@@ -1,4 +1,0 @@
-CREATE SEQUENCE koinoxrhsta.seq_user_id
-    START WITH 1000000
-    INCREMENT BY 1
-    NO CYCLE;
